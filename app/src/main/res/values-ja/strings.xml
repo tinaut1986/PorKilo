@@ -76,4 +76,65 @@
     <string name="offer_value_fixed_qty">個数</string>
     <string name="offer_value_fixed_price">セットの合計価格</string>
     <string name="offer_value_extra_qty">増量分 (%)</string>
+
+    <string name="delete_confirm_title">製品を削除しますか？</string>
+    <string name="delete_confirm_message">\"%s\" を削除してもよろしいですか？この操作は元に戻せません。</string>
+    <string name="delete_confirm_button">削除</string>
+    <string name="delete_cancel_button">キャンセル</string>
+
+    <string name="product_show_extra">オプションを表示</string>
+    <string name="product_hide_extra">オプションを非表示</string>
+
+    <string name="tutorial_skip">スキップ</string>
+    <string name="tutorial_next">次へ</string>
+    <string name="tutorial_finish">了解</string>
+    <string name="tutorial_dont_show_again">次回から表示しない</string>
+
+    <string name="tutorial_step_name_title">製品名</string>
+    <string name="tutorial_step_name_desc">識別しやすい名前を付けてください（任意）。</string>
+    <string name="tutorial_step_price_title">価格</string>
+    <string name="tutorial_step_price_desc">ラベルに記載された合計価格を入力してください。</string>
+    <string name="tutorial_step_qty_title">数量</string>
+    <string name="tutorial_step_qty_desc">重量または容量を入力してください（例：500g なら 500）。</string>
+    <string name="tutorial_step_unit_title">単位</string>
+    <string name="tutorial_step_unit_desc">基準価格を計算するための単位を選択してください。</string>
+    <string name="tutorial_step_offers_title">オファー</string>
+    <string name="tutorial_step_offers_desc">割引、3x2、2本目の割引などを設定して実際の節約額を比較できます。</string>
+
+    <string name="settings_tutorial">チュートリアル</string>
+    <string name="settings_reset_tutorial">チュートリアルを見る</string>
+    <string name="settings_reset_tutorial_desc">ヘルプバブル付きの商品追加画面に移動します</string>
+
+    <string name="tutorial_compare_welcome_title">比較して節約！</string>
+    <string name="tutorial_compare_welcome_desc">ここでは商品が自動的に並べ替えられ、最安値がひと目でわかります。</string>
+    <string name="tutorial_compare_best_title">最良の選択肢</string>
+    <string name="tutorial_compare_best_desc">単価が最も低い商品がこのバッジで自動的に強調表示されます。</string>
+    <string name="tutorial_compare_diff_title">価格差</string>
+    <string name="tutorial_compare_diff_desc">最安値に対して何％高いかを正確に表示します。</string>
+    <string name="tutorial_compare_actions_title">管理</string>
+    <string name="tutorial_compare_actions_desc">カードのアイコンを使っていつでも商品を編集・削除できます。</string>
+
+    <string name="screen_templates">テンプレート</string>
+    <string name="barcode_scan">バーコードをスキャン</string>
+    <string name="barcode_label">バーコード</string>
+    <string name="barcode_placeholder">スキャンまたはコードを入力</string>
+    <string name="product_save_as_template">テンプレートとして保存</string>
+    <string name="templates_title">保存済みテンプレート</string>
+    <string name="templates_empty_title">保存済みテンプレートなし</string>
+    <string name="templates_empty_desc">テンプレート（名前・単位・量）を保存して次回すばやく呼び出せます。</string>
+    <string name="templates_search_placeholder">テンプレートを検索…</string>
+    <string name="scan_error">スキャンエラー</string>
+    <string name="scan_not_found">製品が未登録です。データを入力して保存してください。</string>
+    <string name="scan_loading">製品を検索中…</string>
+    <string name="load_template">テンプレートを読み込む</string>
+    <string name="template_updated">テンプレートを更新しました</string>
+    <string name="template_saved">テンプレートを保存しました</string>
+    <string name="template_add_title">テンプレートを追加</string>
+    <string name="template_edit_title">テンプレートを編集</string>
+    <string name="tutorial_step_extra_title">パックあたりの個数</string>
+    <string name="tutorial_step_extra_desc">パック商品の場合（例：6缶）、個数を入力してください。デフォルトは1です。</string>
+    <string name="tutorial_step_toggle_title">特別オファー</string>
+    <string name="tutorial_step_toggle_desc">ここをタップして割引・3x2などのオファーオプションを確認できます。</string>
+    <string name="tutorial_step_templates_title">保存済みテンプレート</string>
+    <string name="tutorial_step_templates_desc">このチェックボックスをオンにすると、この製品の設定を再利用可能なテンプレートとして保存できます。次回はテンプレートを選択するだけで自動入力されます。</string>
 </resources>

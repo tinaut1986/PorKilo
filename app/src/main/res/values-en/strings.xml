@@ -97,12 +97,8 @@
     <string name="tutorial_step_qty_desc">Indicate the weight or volume (e.g., 500 for 500g).</string>
     <string name="tutorial_step_unit_title">Unit</string>
     <string name="tutorial_step_unit_desc">Select the unit of measurement to calculate base price.</string>
-    <string name="tutorial_step_extra_title">Pack units</string>
-    <string name="tutorial_step_extra_desc">If it\'s a pack, indicate how many units it contains (e.g., pack of 6 cans).</string>
-    <string name="tutorial_step_toggle_title">Advanced options</string>
-    <string name="tutorial_step_toggle_desc">Click here to see more options like packs or offers.</string>
     <string name="tutorial_step_offers_title">Offers</string>
-    <string name="tutorial_step_offers_desc">Configure discounts, 3x2, second unit and more to compare real savings.</string>
+    <string name="tutorial_step_offers_desc">Configure discounts, 3-for-2, second unit and more to compare real savings.</string>
 
     <string name="settings_tutorial">Tutorial</string>
     <string name="settings_reset_tutorial">See tutorial</string>
@@ -116,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">We show you the exact percentage of how much more expensive a product is compared to the best one.</string>
     <string name="tutorial_compare_actions_title">Management</string>
     <string name="tutorial_compare_actions_desc">You can edit or delete products at any time using the card icons.</string>
+
+    <string name="screen_templates">Templates</string>
+    <string name="barcode_scan">Scan barcode</string>
+    <string name="barcode_label">Barcode</string>
+    <string name="barcode_placeholder">Scan or type barcode</string>
+    <string name="product_save_as_template">Save as template</string>
+    <string name="templates_title">Saved Templates</string>
+    <string name="templates_empty_title">No saved templates</string>
+    <string name="templates_empty_desc">Save templates (name, units, quantity) to load them quickly next time.</string>
+    <string name="templates_search_placeholder">Search template…</string>
+    <string name="scan_error">Scan error</string>
+    <string name="scan_not_found">Product not registered. Enter the details to save it.</string>
+    <string name="scan_loading">Searching product…</string>
+    <string name="load_template">Load template</string>
+    <string name="template_updated">Template updated</string>
+    <string name="template_saved">Template saved</string>
+    <string name="template_add_title">Add template</string>
+    <string name="template_edit_title">Edit template</string>
+    <string name="tutorial_step_extra_title">Units per package</string>
+    <string name="tutorial_step_extra_desc">If the product is a pack (e.g. 6 cans), indicate how many units it contains. Default is 1.</string>
+    <string name="tutorial_step_toggle_title">Special offers</string>
+    <string name="tutorial_step_toggle_desc">Tap here to see offer options like discounts, 3-for-2 and more.</string>
+    <string name="tutorial_step_templates_title">Saved templates</string>
+    <string name="tutorial_step_templates_desc">Check this box to save this product\'s setup (name, quantity, unit) as a reusable template. Next time, select the template and the fields will fill in automatically.</string>
 </resources>

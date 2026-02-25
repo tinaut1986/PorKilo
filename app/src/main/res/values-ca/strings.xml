@@ -97,8 +97,6 @@
     <string name="tutorial_step_qty_desc">Indica el pes o volum del producte (ex: 500 per a 500g).</string>
     <string name="tutorial_step_unit_title">Unitat</string>
     <string name="tutorial_step_unit_desc">Selecciona la unitat de mesura per calcular el preu base.</string>
-    <string name="tutorial_step_extra_title">Unitats pack</string>
-    <string name="tutorial_step_extra_desc">Si és un pack, indica quantes unitats porta (ex: pack de 6 lates).</string>
     <string name="tutorial_step_offers_title">Ofertes</string>
     <string name="tutorial_step_offers_desc">Configura descomptes, 3x2, segona unitat i més per comparar l\'estalvi real.</string>
 
@@ -114,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">Et mostrem el percentatge exacte de quant més car és un producte respecte al millor.</string>
     <string name="tutorial_compare_actions_title">Gestió</string>
     <string name="tutorial_compare_actions_desc">Pots editar o eliminar productes en qualsevol moment usant les icones de la targeta.</string>
+
+    <string name="screen_templates">Formats</string>
+    <string name="barcode_scan">Escanejar codi</string>
+    <string name="barcode_label">Codi de barres</string>
+    <string name="barcode_placeholder">Escanejar o escriure codi</string>
+    <string name="product_save_as_template">Desar com a format</string>
+    <string name="templates_title">Formats desats</string>
+    <string name="templates_empty_title">No tens formats desats</string>
+    <string name="templates_empty_desc">Desa formats (nom, unitats, quantitat) per carregar-los ràpidament un altre dia.</string>
+    <string name="templates_search_placeholder">Cercar format…</string>
+    <string name="scan_error">Error en escanejar</string>
+    <string name="scan_not_found">Producte no registrat. Introdueix les dades per desar-lo.</string>
+    <string name="scan_loading">Cercant producte…</string>
+    <string name="load_template">Carregar format</string>
+    <string name="template_updated">Format actualitzat</string>
+    <string name="template_saved">Format desat</string>
+    <string name="template_add_title">Afegir format</string>
+    <string name="template_edit_title">Editar format</string>
+    <string name="tutorial_step_extra_title">Unitats per paquet</string>
+    <string name="tutorial_step_extra_desc">Si el producte és un pack (ex: 6 lates), indica quantes unitats té. Per defecte és 1.</string>
+    <string name="tutorial_step_toggle_title">Ofertes especials</string>
+    <string name="tutorial_step_toggle_desc">Prem aquí per veure opcions d\'oferta com descomptes, 3x2 i més.</string>
+    <string name="tutorial_step_templates_title">Formats desats</string>
+    <string name="tutorial_step_templates_desc">Marca aquesta casella per desar la configuració d\'aquest producte com a format reutilitzable. La propera vegada, selecciona el format i els camps s\'ompliran sols.</string>
 </resources>

@@ -97,8 +97,6 @@
     <string name="tutorial_step_qty_desc">Geef het gewicht of volume aan (bijv: 500 voor 500g).</string>
     <string name="tutorial_step_unit_title">Eenheid</string>
     <string name="tutorial_step_unit_desc">Selecteer de maateenheid om de basisprijs te berekenen.</string>
-    <string name="tutorial_step_extra_title">Verpakkingseenheden</string>
-    <string name="tutorial_step_extra_desc">Als het een pack is, geef dan aan hoeveel eenheden het bevat (bijv: pack van 6 blikjes).</string>
     <string name="tutorial_step_offers_title">Aanbiedingen</string>
     <string name="tutorial_step_offers_desc">Stel kortingen, 3x2, tweede eenheid en meer in om echte besparingen te vergelijken.</string>
 
@@ -114,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">We tonen u het exacte percentage van hoeveel duurder een product is in vergelijking met de beste.</string>
     <string name="tutorial_compare_actions_title">Beheer</string>
     <string name="tutorial_compare_actions_desc">U kunt producten op elk gewenst moment bewerken of verwijderen via de pictogrammen op de kaart.</string>
+
+    <string name="screen_templates">Sjablonen</string>
+    <string name="barcode_scan">Barcode scannen</string>
+    <string name="barcode_label">Barcode</string>
+    <string name="barcode_placeholder">Barcode scannen of typen</string>
+    <string name="product_save_as_template">Opslaan als sjabloon</string>
+    <string name="templates_title">Opgeslagen sjablonen</string>
+    <string name="templates_empty_title">Geen opgeslagen sjablonen</string>
+    <string name="templates_empty_desc">Sla sjablonen op (naam, eenheden, hoeveelheid) om ze een volgende keer snel te laden.</string>
+    <string name="templates_search_placeholder">Sjabloon zoeken…</string>
+    <string name="scan_error">Scanfout</string>
+    <string name="scan_not_found">Product niet geregistreerd. Voer de gegevens in om het op te slaan.</string>
+    <string name="scan_loading">Product zoeken…</string>
+    <string name="load_template">Sjabloon laden</string>
+    <string name="template_updated">Sjabloon bijgewerkt</string>
+    <string name="template_saved">Sjabloon opgeslagen</string>
+    <string name="template_add_title">Sjabloon toevoegen</string>
+    <string name="template_edit_title">Sjabloon bewerken</string>
+    <string name="tutorial_step_extra_title">Eenheden per verpakking</string>
+    <string name="tutorial_step_extra_desc">Als het een pack is (bijv. 6 blikjes), geef dan het aantal eenheden aan. Standaard is 1.</string>
+    <string name="tutorial_step_toggle_title">Speciale aanbiedingen</string>
+    <string name="tutorial_step_toggle_desc">Tik hier om aanbiedingsopties te zien zoals kortingen, 3x2 en meer.</string>
+    <string name="tutorial_step_templates_title">Opgeslagen sjablonen</string>
+    <string name="tutorial_step_templates_desc">Vink dit vakje aan om de configuratie van dit product op te slaan als herbruikbaar sjabloon. De volgende keer selecteert u het sjabloon en worden de velden automatisch ingevuld.</string>
 </resources>

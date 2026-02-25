@@ -114,13 +114,13 @@ fun SettingsScreen(
         
         val versionName = try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            packageInfo.versionName ?: "1.1.0"
+            packageInfo.versionName ?: "1.2.0"
         } catch (e: Exception) {
-            "1.1.0"
+            "1.2.0"
         }
 
         Text(
-            stringResource(R.string.settings_version, versionName ?: "1.1.0"),
+            stringResource(R.string.settings_version, versionName ?: "1.2.0"),
             style = MaterialTheme.typography.labelSmall,
             color = Color.Gray,
             modifier = Modifier.align(Alignment.CenterHorizontally).padding(vertical = 8.dp)

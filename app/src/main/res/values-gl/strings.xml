@@ -97,8 +97,6 @@
     <string name="tutorial_step_qty_desc">Indica o peso ou volume do produto (ex: 500 para 500g).</string>
     <string name="tutorial_step_unit_title">Unidade</string>
     <string name="tutorial_step_unit_desc">Selecciona a unidade de medida para calcular o prezo base.</string>
-    <string name="tutorial_step_extra_title">Unidades pack</string>
-    <string name="tutorial_step_extra_desc">Se é un pack, indica cantas unidades trae (ex: pack de 6 latas).</string>
     <string name="tutorial_step_offers_title">Ofertas</string>
     <string name="tutorial_step_offers_desc">Configura descontos, 3x2, segunda unidade e máis para comparar o aforro real.</string>
 
@@ -114,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">Amosámosche a porcentaxe exacta de canto máis caro é un produto respecto ao mellor.</string>
     <string name="tutorial_compare_actions_title">Xestión</string>
     <string name="tutorial_compare_actions_desc">Podes editar ou eliminar produtos en calquera momento usando as iconas da tarxeta.</string>
+
+    <string name="screen_templates">Formatos</string>
+    <string name="barcode_scan">Escanear código</string>
+    <string name="barcode_label">Código de barras</string>
+    <string name="barcode_placeholder">Escanear ou escribir código</string>
+    <string name="product_save_as_template">Gardar como formato</string>
+    <string name="templates_title">Formatos gardados</string>
+    <string name="templates_empty_title">Non tes formatos gardados</string>
+    <string name="templates_empty_desc">Garda formatos (nome, unidades, cantidade) para cargalos rapidamente outro día.</string>
+    <string name="templates_search_placeholder">Buscar formato…</string>
+    <string name="scan_error">Erro ao escanear</string>
+    <string name="scan_not_found">Produto non rexistrado. Introduce os datos para gardalo.</string>
+    <string name="scan_loading">Buscando produto…</string>
+    <string name="load_template">Cargar formato</string>
+    <string name="template_updated">Formato actualizado</string>
+    <string name="template_saved">Formato gardado</string>
+    <string name="template_add_title">Engadir formato</string>
+    <string name="template_edit_title">Editar formato</string>
+    <string name="tutorial_step_extra_title">Unidades por paquete</string>
+    <string name="tutorial_step_extra_desc">Se é un pack (ex: 6 latas), indica cantas unidades trae. Por defecto é 1.</string>
+    <string name="tutorial_step_toggle_title">Ofertas especiais</string>
+    <string name="tutorial_step_toggle_desc">Preme aquí para ver opcións de oferta como descontos, 3x2 e máis.</string>
+    <string name="tutorial_step_templates_title">Formatos gardados</string>
+    <string name="tutorial_step_templates_desc">Marca esta caixa para gardar a configuración deste produto como formato reutilizable. A próxima vez, selecciona o formato e os campos encherase automaticamente.</string>
 </resources>

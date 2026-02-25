@@ -97,8 +97,6 @@
     <string name="tutorial_step_qty_desc">Indiquez le poids ou volume (ex : 500 pour 500g).</string>
     <string name="tutorial_step_unit_title">Unité</string>
     <string name="tutorial_step_unit_desc">Sélectionnez l\'unité pour calculer le prix de base.</string>
-    <string name="tutorial_step_extra_title">Unités pack</string>
-    <string name="tutorial_step_extra_desc">S\'il s\'agit d\'un pack, indiquez le nombre d\'unités (ex : pack de 6 canettes).</string>
     <string name="tutorial_step_offers_title">Offres</string>
     <string name="tutorial_step_offers_desc">Configurez remises, 3x2, deuxième unité et plus pour comparer l\'économie réelle.</string>
 
@@ -114,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">Nous vous montrons le pourcentage exact de combien un produit est plus cher par rapport au meilleur.</string>
     <string name="tutorial_compare_actions_title">Gestion</string>
     <string name="tutorial_compare_actions_desc">Vous pouvez modifier ou supprimer des produits à tout moment à l\'aide des icônes de la fiche.</string>
+
+    <string name="screen_templates">Modèles</string>
+    <string name="barcode_scan">Scanner le code</string>
+    <string name="barcode_label">Code-barres</string>
+    <string name="barcode_placeholder">Scanner ou saisir le code</string>
+    <string name="product_save_as_template">Enregistrer comme modèle</string>
+    <string name="templates_title">Modèles enregistrés</string>
+    <string name="templates_empty_title">Aucun modèle enregistré</string>
+    <string name="templates_empty_desc">Enregistrez des modèles (nom, unités, quantité) pour les charger rapidement une prochaine fois.</string>
+    <string name="templates_search_placeholder">Rechercher un modèle…</string>
+    <string name="scan_error">Erreur de scan</string>
+    <string name="scan_not_found">Produit non enregistré. Saisissez les données pour l\'enregistrer.</string>
+    <string name="scan_loading">Recherche du produit…</string>
+    <string name="load_template">Charger le modèle</string>
+    <string name="template_updated">Modèle mis à jour</string>
+    <string name="template_saved">Modèle enregistré</string>
+    <string name="template_add_title">Ajouter un modèle</string>
+    <string name="template_edit_title">Modifier le modèle</string>
+    <string name="tutorial_step_extra_title">Unités par paquet</string>
+    <string name="tutorial_step_extra_desc">Si c\'est un pack (ex : 6 canettes), indiquez combien d\'unités il contient. Par défaut : 1.</string>
+    <string name="tutorial_step_toggle_title">Offres spéciales</string>
+    <string name="tutorial_step_toggle_desc">Appuyez ici pour voir les options d\'offres comme les remises, 3x2 et plus.</string>
+    <string name="tutorial_step_templates_title">Modèles enregistrés</string>
+    <string name="tutorial_step_templates_desc">Cochez cette case pour enregistrer la configuration de ce produit comme modèle réutilisable. La prochaine fois, sélectionnez le modèle et les champs se rempliront automatiquement.</string>
 </resources>

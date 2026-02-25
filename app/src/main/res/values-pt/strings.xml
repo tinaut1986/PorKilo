@@ -97,8 +97,6 @@
     <string name="tutorial_step_qty_desc">Indique o peso ou volume do produto (ex: 500 para 500g).</string>
     <string name="tutorial_step_unit_title">Unidade</string>
     <string name="tutorial_step_unit_desc">Selecione a unidade de medida para calcular o preço base.</string>
-    <string name="tutorial_step_extra_title">Unidades pack</string>
-    <string name="tutorial_step_extra_desc">Se for um pack, indique quantas unidades traz (ex: pack de 6 latas).</string>
     <string name="tutorial_step_offers_title">Ofertas</string>
     <string name="tutorial_step_offers_desc">Configure descontos, 3x2, segunda unidade e mais para comparar a poupança real.</string>
 
@@ -114,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">Mostramos-lhe a percentagem exata de quanto mais caro um produto é em relação ao melhor.</string>
     <string name="tutorial_compare_actions_title">Gestão</string>
     <string name="tutorial_compare_actions_desc">Pode editar ou eliminar produtos a qualquer momento usando os ícones do cartão.</string>
+
+    <string name="screen_templates">Modelos</string>
+    <string name="barcode_scan">Digitalizar código</string>
+    <string name="barcode_label">Código de barras</string>
+    <string name="barcode_placeholder">Digitalizar ou escrever código</string>
+    <string name="product_save_as_template">Guardar como modelo</string>
+    <string name="templates_title">Modelos guardados</string>
+    <string name="templates_empty_title">Sem modelos guardados</string>
+    <string name="templates_empty_desc">Guarde modelos (nome, unidades, quantidade) para os carregar rapidamente outro dia.</string>
+    <string name="templates_search_placeholder">Pesquisar modelo…</string>
+    <string name="scan_error">Erro ao digitalizar</string>
+    <string name="scan_not_found">Produto não registado. Introduza os dados para guardá-lo.</string>
+    <string name="scan_loading">A procurar produto…</string>
+    <string name="load_template">Carregar modelo</string>
+    <string name="template_updated">Modelo atualizado</string>
+    <string name="template_saved">Modelo guardado</string>
+    <string name="template_add_title">Adicionar modelo</string>
+    <string name="template_edit_title">Editar modelo</string>
+    <string name="tutorial_step_extra_title">Unidades por pacote</string>
+    <string name="tutorial_step_extra_desc">Se for um pack (ex: 6 latas), indique quantas unidades contém. O valor padrão é 1.</string>
+    <string name="tutorial_step_toggle_title">Ofertas especiais</string>
+    <string name="tutorial_step_toggle_desc">Toque aqui para ver opções de oferta como descontos, 3x2 e mais.</string>
+    <string name="tutorial_step_templates_title">Modelos guardados</string>
+    <string name="tutorial_step_templates_desc">Marque esta caixa para guardar a configuração deste produto como modelo reutilizável. Da próxima vez, selecione o modelo e os campos serão preenchidos automaticamente.</string>
 </resources>

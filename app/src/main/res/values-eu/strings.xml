@@ -97,8 +97,6 @@
     <string name="tutorial_step_qty_desc">Adierazi produktuaren pisua edo bolumena (adib: 500, 500g-rako).</string>
     <string name="tutorial_step_unit_title">Unitatea</string>
     <string name="tutorial_step_unit_desc">Hautatu neurri-unitatea oinarrizko prezioa kalkulatzeko.</string>
-    <string name="tutorial_step_extra_title">Pack unitateak</string>
-    <string name="tutorial_step_extra_desc">Pack bat bada, adierazi zenbat unitate dituen (adib: 6 latako pack-a).</string>
     <string name="tutorial_step_offers_title">Eskaintzak</string>
     <string name="tutorial_step_offers_desc">Konfiguratu deskontuak, 3x2, bigarren unitatea eta gehiago benetako aurrezpena alderatzeko.</string>
 
@@ -114,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">Produktu bat onena baino zenbat garestiagoa den ehuneko zehatza erakusten dizugu.</string>
     <string name="tutorial_compare_actions_title">Kudeaketa</string>
     <string name="tutorial_compare_actions_desc">Produktuak edozein unetan editatu edo ezabatu ditzakezu txarteleko ikonoak erabiliz.</string>
+
+    <string name="screen_templates">Txantiloiak</string>
+    <string name="barcode_scan">Kodea eskaneatu</string>
+    <string name="barcode_label">Barra-kodea</string>
+    <string name="barcode_placeholder">Kodea eskaneatu edo idatzi</string>
+    <string name="product_save_as_template">Txantiloi gisa gorde</string>
+    <string name="templates_title">Gordetako txantiloiak</string>
+    <string name="templates_empty_title">Ez dago gordetako txantiloirik</string>
+    <string name="templates_empty_desc">Gorde txantiloiak (izena, unitateak, kantitatea) hurrengo aldian azkar kargatzeko.</string>
+    <string name="templates_search_placeholder">Txantiloia bilatu…</string>
+    <string name="scan_error">Eskaneatze-errorea</string>
+    <string name="scan_not_found">Produktua ez dago erregistratuta. Sartu datuak gordetzeko.</string>
+    <string name="scan_loading">Produktua bilatzen…</string>
+    <string name="load_template">Txantiloia kargatu</string>
+    <string name="template_updated">Txantiloia eguneratuta</string>
+    <string name="template_saved">Txantiloia gordeta</string>
+    <string name="template_add_title">Txantiloia gehitu</string>
+    <string name="template_edit_title">Txantiloia editatu</string>
+    <string name="tutorial_step_extra_title">Pakete bakoitzeko unitateak</string>
+    <string name="tutorial_step_extra_desc">Pack bat bada (adib: 6 lata), zenbat unitate dituen adierazi. Lehenetsita 1 da.</string>
+    <string name="tutorial_step_toggle_title">Eskaintza bereziak</string>
+    <string name="tutorial_step_toggle_desc">Sakatu hemen deskontuak, 3x2 eta gehiagoko eskaintza aukerak ikusteko.</string>
+    <string name="tutorial_step_templates_title">Gordetako txantiloiak</string>
+    <string name="tutorial_step_templates_desc">Markatu laukitxo hau produktu honen konfigurazioa txantiloi berrerabilgarri gisa gordetzeko. Hurrengo aldian, txantiloia hautatu eta eremuak automatikoki beteko dira.</string>
 </resources>

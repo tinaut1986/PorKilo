@@ -97,8 +97,6 @@
     <string name="tutorial_step_qty_desc">Geben Sie das Gewicht oder Volumen an (z.B. 500 für 500g).</string>
     <string name="tutorial_step_unit_title">Einheit</string>
     <string name="tutorial_step_unit_desc">Wählen Sie die Maßeinheit, um den Basispreis zu berechnen.</string>
-    <string name="tutorial_step_extra_title">Packungseinheiten</string>
-    <string name="tutorial_step_extra_desc">Wenn es ein Pack ist, geben Sie an, wie viele Einheiten es enthält (z.B. 6er Pack).</string>
     <string name="tutorial_step_offers_title">Angebote</string>
     <string name="tutorial_step_offers_desc">Konfigurieren Sie Rabatte, 3x2, zweite Einheit und mehr, um die echte Ersparnis zu vergleichen.</string>
 
@@ -114,4 +112,28 @@
     <string name="tutorial_compare_diff_desc">Wir zeigen Ihnen den genauen Prozentsatz, um wie viel teurer ein Produkt im Vergleich zum besten ist.</string>
     <string name="tutorial_compare_actions_title">Verwaltung</string>
     <string name="tutorial_compare_actions_desc">Sie können Produkte jederzeit über die Kartensymbole bearbeiten oder löschen.</string>
+
+    <string name="screen_templates">Vorlagen</string>
+    <string name="barcode_scan">Barcode scannen</string>
+    <string name="barcode_label">Barcode</string>
+    <string name="barcode_placeholder">Barcode scannen oder eingeben</string>
+    <string name="product_save_as_template">Als Vorlage speichern</string>
+    <string name="templates_title">Gespeicherte Vorlagen</string>
+    <string name="templates_empty_title">Keine gespeicherten Vorlagen</string>
+    <string name="templates_empty_desc">Speichern Sie Vorlagen (Name, Einheiten, Menge), um sie schnell wieder zu laden.</string>
+    <string name="templates_search_placeholder">Vorlage suchen…</string>
+    <string name="scan_error">Scanfehler</string>
+    <string name="scan_not_found">Produkt nicht registriert. Daten eingeben, um es zu speichern.</string>
+    <string name="scan_loading">Produkt wird gesucht…</string>
+    <string name="load_template">Vorlage laden</string>
+    <string name="template_updated">Vorlage aktualisiert</string>
+    <string name="template_saved">Vorlage gespeichert</string>
+    <string name="template_add_title">Vorlage hinzufügen</string>
+    <string name="template_edit_title">Vorlage bearbeiten</string>
+    <string name="tutorial_step_extra_title">Einheiten pro Packung</string>
+    <string name="tutorial_step_extra_desc">Wenn es ein Pack ist (z.B. 6 Dosen), geben Sie die Anzahl der Einheiten an. Standard ist 1.</string>
+    <string name="tutorial_step_toggle_title">Sonderangebote</string>
+    <string name="tutorial_step_toggle_desc">Tippen Sie hier, um Angebotsoptionen wie Rabatte, 3-für-2 und mehr zu sehen.</string>
+    <string name="tutorial_step_templates_title">Gespeicherte Vorlagen</string>
+    <string name="tutorial_step_templates_desc">Aktivieren Sie dieses Kontrollkästchen, um die Konfiguration dieses Produkts als wiederverwendbare Vorlage zu speichern. Beim nächsten Mal wählen Sie die Vorlage aus und die Felder werden automatisch ausgefüllt.</string>
 </resources>

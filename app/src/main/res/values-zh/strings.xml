@@ -76,4 +76,65 @@
     <string name="offer_value_fixed_qty">单位数量</string>
     <string name="offer_value_fixed_price">组合总价</string>
     <string name="offer_value_extra_qty">额外 (%)</string>
+
+    <string name="delete_confirm_title">删除产品？</string>
+    <string name="delete_confirm_message">确定要删除 \"%s\" 吗？此操作无法撤销。</string>
+    <string name="delete_confirm_button">删除</string>
+    <string name="delete_cancel_button">取消</string>
+
+    <string name="product_show_extra">显示更多选项</string>
+    <string name="product_hide_extra">隐藏更多选项</string>
+
+    <string name="tutorial_skip">跳过</string>
+    <string name="tutorial_next">下一步</string>
+    <string name="tutorial_finish">明白了</string>
+    <string name="tutorial_dont_show_again">不再显示</string>
+
+    <string name="tutorial_step_name_title">产品名称</string>
+    <string name="tutorial_step_name_desc">给它起个名字方便识别（可选）。</string>
+    <string name="tutorial_step_price_title">价格</string>
+    <string name="tutorial_step_price_desc">输入标签上标注的总价。</string>
+    <string name="tutorial_step_qty_title">数量</string>
+    <string name="tutorial_step_qty_desc">输入重量或容量（例如：500g 则输入 500）。</string>
+    <string name="tutorial_step_unit_title">单位</string>
+    <string name="tutorial_step_unit_desc">选择计量单位以计算基准价格。</string>
+    <string name="tutorial_step_offers_title">优惠</string>
+    <string name="tutorial_step_offers_desc">配置折扣、3x2、第二件优惠等，比较实际节省金额。</string>
+
+    <string name="settings_tutorial">教程</string>
+    <string name="settings_reset_tutorial">查看教程</string>
+    <string name="settings_reset_tutorial_desc">将带您前往带有帮助气泡的添加产品页面</string>
+
+    <string name="tutorial_compare_welcome_title">比较并节省！</string>
+    <string name="tutorial_compare_welcome_desc">在这里，您的产品将自动排序，让您随时了解哪个最便宜。</string>
+    <string name="tutorial_compare_best_title">最佳选择</string>
+    <string name="tutorial_compare_best_desc">单价最低的产品会自动用此徽章高亮显示。</string>
+    <string name="tutorial_compare_diff_title">价格差异</string>
+    <string name="tutorial_compare_diff_desc">我们会显示某产品比最佳选择贵多少百分比。</string>
+    <string name="tutorial_compare_actions_title">管理</string>
+    <string name="tutorial_compare_actions_desc">您可以随时使用卡片上的图标编辑或删除产品。</string>
+
+    <string name="screen_templates">模板</string>
+    <string name="barcode_scan">扫描条形码</string>
+    <string name="barcode_label">条形码</string>
+    <string name="barcode_placeholder">扫描或输入条形码</string>
+    <string name="product_save_as_template">保存为模板</string>
+    <string name="templates_title">已保存的模板</string>
+    <string name="templates_empty_title">没有已保存的模板</string>
+    <string name="templates_empty_desc">保存模板（名称、单位、数量），下次即可快速加载。</string>
+    <string name="templates_search_placeholder">搜索模板…</string>
+    <string name="scan_error">扫描错误</string>
+    <string name="scan_not_found">产品未注册，请输入数据以保存。</string>
+    <string name="scan_loading">正在搜索产品…</string>
+    <string name="load_template">加载模板</string>
+    <string name="template_updated">模板已更新</string>
+    <string name="template_saved">模板已保存</string>
+    <string name="template_add_title">添加模板</string>
+    <string name="template_edit_title">编辑模板</string>
+    <string name="tutorial_step_extra_title">每包数量</string>
+    <string name="tutorial_step_extra_desc">如果是套装（例如：6罐），请输入包含的数量。默认为1。</string>
+    <string name="tutorial_step_toggle_title">特别优惠</string>
+    <string name="tutorial_step_toggle_desc">点击此处查看折扣、3x2等优惠选项。</string>
+    <string name="tutorial_step_templates_title">已保存的模板</string>
+    <string name="tutorial_step_templates_desc">勾选此框可将此产品的配置保存为可重复使用的模板。下次选择模板后，字段将自动填充。</string>
 </resources>
