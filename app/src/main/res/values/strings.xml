@@ -97,12 +97,14 @@
     <string name="tutorial_step_qty_desc">Indica el peso o volumen del producto (ej: 500 para 500g).</string>
     <string name="tutorial_step_unit_title">Unidad</string>
     <string name="tutorial_step_unit_desc">Selecciona la unidad de medida para calcular el precio base.</string>
-    <string name="tutorial_step_extra_title">Unidades pack</string>
-    <string name="tutorial_step_extra_desc">Si es un pack, indica cuántas unidades trae (ej: pack de 6 latas).</string>
-    <string name="tutorial_step_toggle_title">Opciones avanzadas</string>
-    <string name="tutorial_step_toggle_desc">Pulsa aquí para ver más opciones como packs u ofertas.</string>
+    <string name="tutorial_step_extra_title">Unidades por paquete</string>
+    <string name="tutorial_step_extra_desc">Si el producto es un pack (ej: 6 latas), indica cuántas unidades trae. Por defecto es 1.</string>
+    <string name="tutorial_step_toggle_title">Ofertas especiales</string>
+    <string name="tutorial_step_toggle_desc">Pulsa aquí para ver opciones de ofertas como descuentos, 3x2 y más.</string>
     <string name="tutorial_step_offers_title">Ofertas</string>
     <string name="tutorial_step_offers_desc">Configura descuentos, 3x2, segunda unidad y más para comparar el ahorro real.</string>
+    <string name="tutorial_step_templates_title">Formatos guardados</string>
+    <string name="tutorial_step_templates_desc">Marca esta casilla para guardar la configuración de este producto (nombre, cantidad, unidad) como un formato reutilizable. La próxima vez, selecciona el formato y los campos se rellenarán solos.</string>
 
     <string name="settings_tutorial">Tutorial</string>
     <string name="settings_reset_tutorial">Ver tutorial</string>
@@ -116,4 +118,21 @@
     <string name="tutorial_compare_diff_desc">Te mostramos el porcentaje exacto de cuánto más caro es un producto respecto al mejor.</string>
     <string name="tutorial_compare_actions_title">Gestión</string>
     <string name="tutorial_compare_actions_desc">Puedes editar o eliminar productos en cualquier momento usando los iconos de la tarjeta.</string>
+    <string name="screen_templates">Formatos</string>
+    <string name="barcode_scan">Escanear código</string>
+    <string name="barcode_label">Código de barras</string>
+    <string name="barcode_placeholder">Escanear o escribir código</string>
+    <string name="product_save_as_template">Guardar como formato</string>
+    <string name="templates_title">Formatos Guardados</string>
+    <string name="templates_empty_title">No tienes formatos guardados</string>
+    <string name="templates_empty_desc">Guarda los formatos (nombre, unidades, cantidad) para cargarlos rápidamente otro día.</string>
+    <string name="templates_search_placeholder">Buscar formato...</string>
+    <string name="scan_error">Error al escanear</string>
+    <string name="scan_not_found">Producto no registrado. Introduce los datos para guardarlo.</string>
+    <string name="scan_loading">Buscando producto...</string>
+    <string name="load_template">Cargar formato</string>
+    <string name="template_updated">Formato actualizado</string>
+    <string name="template_saved">Formato guardado</string>
+    <string name="template_add_title">Añadir formato</string>
+    <string name="template_edit_title">Editar formato</string>
 </resources>

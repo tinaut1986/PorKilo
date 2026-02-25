@@ -24,6 +24,14 @@ import com.tinaut1986.pricesmart.navigation.ProductScreen
 import com.tinaut1986.pricesmart.ui.screens.AddEditProductScreen
 import com.tinaut1986.pricesmart.ui.screens.CompareScreen
 import com.tinaut1986.pricesmart.ui.screens.SettingsScreen
+import com.tinaut1986.pricesmart.ui.screens.TemplatesScreen
+import com.tinaut1986.pricesmart.vms.TemplateViewModel
+import com.tinaut1986.pricesmart.util.ScannerUtils
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.material.icons.filled.QrCodeScanner
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
+import kotlinx.coroutines.launch
 import com.tinaut1986.pricesmart.ui.theme.PriceSmartTheme
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -31,6 +39,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.ui.platform.LocalConfiguration
 import android.content.res.Configuration
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
 
 class MainActivity : AppCompatActivity() {
@@ -49,6 +58,9 @@ class MainActivity : AppCompatActivity() {
 @Composable
 fun PriceComparatorApp() {
     val navController = rememberNavController()
+    val scope = rememberCoroutineScope()
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val templateViewModel: TemplateViewModel = viewModel()
     val products = rememberSaveable(
         saver = listSaver(
             save = { it.toList() },
@@ -107,7 +119,7 @@ fun PriceComparatorApp() {
                 NavigationRail(
                     containerColor = if (isDarkMode) Color(0xFF1A1A1A) else Color(0xFFF5F5F5)
                 ) {
-                    listOf(ProductScreen.Compare, ProductScreen.Settings).forEach { screen ->
+                    listOf(ProductScreen.Compare, ProductScreen.Templates, ProductScreen.Settings).forEach { screen ->
                         NavigationRailItem(
                             icon = { 
                                 Icon(
@@ -158,7 +170,7 @@ fun PriceComparatorApp() {
                         NavigationBar(
                             containerColor = if (isDarkMode) Color(0xFF1A1A1A) else Color(0xFFF5F5F5)
                         ) {
-                            listOf(ProductScreen.Compare, ProductScreen.Settings).forEach { screen ->
+                            listOf(ProductScreen.Compare, ProductScreen.Templates, ProductScreen.Settings).forEach { screen ->
                                 NavigationBarItem(
                                     icon = { 
                                         Icon(
@@ -190,24 +202,51 @@ fun PriceComparatorApp() {
                 },
                 floatingActionButton = {
                     if (currentRoute == ProductScreen.Compare.route) {
-                        FloatingActionButton(
-                            onClick = {
-                                navController.navigate(ProductScreen.Add.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
-                                    }
-                                    launchSingleTop = true
-                                    restoreState = true
-                                }
-                            },
-                            containerColor = Color(0xFF2E7D32),
-                            contentColor = Color.White,
-                            shape = androidx.compose.foundation.shape.CircleShape
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(16.dp),
+                            horizontalAlignment = Alignment.End
                         ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = stringResource(R.string.add_product_title)
-                            )
+                            SmallFloatingActionButton(
+                                onClick = {
+                                    ScannerUtils.startScan(
+                                        context = context,
+                                        onSuccess = { scannedBarcode ->
+                                            scope.launch {
+                                                val template = templateViewModel.getTemplateByBarcode(scannedBarcode)
+                                                if (template != null) {
+                                                    // Load template into add screen
+                                                    navController.navigate(ProductScreen.Add.createRoute(scannedBarcode))
+                                                } else {
+                                                    // No template, just go with barcode
+                                                    navController.navigate(ProductScreen.Add.createRoute(scannedBarcode))
+                                                }
+                                            }
+                                        }
+                                    )
+                                },
+                                containerColor = if (isDarkMode) Color(0xFF388E3C) else Color(0xFFE8F5E9),
+                                contentColor = if (isDarkMode) Color.White else Color(0xFF2E7D32),
+                                shape = androidx.compose.foundation.shape.CircleShape
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.QrCodeScanner,
+                                    contentDescription = stringResource(R.string.barcode_scan)
+                                )
+                            }
+                            
+                            FloatingActionButton(
+                                onClick = {
+                                    navController.navigate(ProductScreen.Add.createRoute(null))
+                                },
+                                containerColor = Color(0xFF2E7D32),
+                                contentColor = Color.White,
+                                shape = androidx.compose.foundation.shape.CircleShape
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = stringResource(R.string.add_product_title)
+                                )
+                            }
                         }
                     }
                 },
@@ -238,9 +277,27 @@ fun PriceComparatorApp() {
                                 }
                             ) 
                         }
-                        composable(ProductScreen.Add.route) { 
+                        composable(
+                            route = ProductScreen.Add.route,
+                            arguments = listOf(
+                                navArgument("barcode") { 
+                                    type = NavType.StringType
+                                    nullable = true
+                                    defaultValue = null
+                                },
+                                navArgument("templateId") {
+                                    type = NavType.LongType
+                                    defaultValue = -1L
+                                }
+                            )
+                        ) { backStackEntry ->
+                            val barcode = backStackEntry.arguments?.getString("barcode")
+                            val templateId = backStackEntry.arguments?.getLong("templateId") ?: -1L
                             AddEditProductScreen(
                                 isDarkMode = isDarkMode,
+                                initialBarcode = if (barcode.isNullOrBlank()) null else barcode,
+                                initialTemplateId = if (templateId == -1L) null else templateId,
+                                templateViewModel = templateViewModel,
                                 onProductAction = { product ->
                                     products.add(product)
                                     navController.navigate(ProductScreen.Compare.route) {
@@ -252,7 +309,62 @@ fun PriceComparatorApp() {
                                         popUpTo(ProductScreen.Compare.route) { inclusive = true }
                                     }
                                 }
-                            ) 
+                            )
+                        }
+                        composable(ProductScreen.Templates.route) {
+                            TemplatesScreen(
+                                isDarkMode = isDarkMode,
+                                viewModel = templateViewModel,
+                                onTemplateSelected = { template ->
+                                    navController.navigate(ProductScreen.Add.createRoute(template.barcode, template.id))
+                                },
+                                onEditTemplate = { template ->
+                                    navController.navigate(ProductScreen.EditTemplate.createRoute(template.id))
+                                },
+                                onAddTemplate = {
+                                    navController.navigate(ProductScreen.AddTemplate.createRoute(null))
+                                }
+                            )
+                        }
+                        composable(
+                            route = ProductScreen.AddTemplate.route,
+                            arguments = listOf(
+                                navArgument("barcode") {
+                                    type = NavType.StringType
+                                    nullable = true
+                                    defaultValue = null
+                                }
+                            )
+                        ) { backStackEntry ->
+                            val barcode = backStackEntry.arguments?.getString("barcode")
+                            AddEditProductScreen(
+                                isDarkMode = isDarkMode,
+                                initialBarcode = barcode,
+                                templateViewModel = templateViewModel,
+                                isTemplateMode = true,
+                                onProductAction = {},
+                                onTemplateAction = {
+                                    navController.popBackStack()
+                                }
+                            )
+                        }
+                        composable(
+                            route = ProductScreen.EditTemplate.route,
+                            arguments = listOf(
+                                navArgument("templateId") { type = NavType.LongType }
+                            )
+                        ) { backStackEntry ->
+                            val templateId = backStackEntry.arguments?.getLong("templateId")
+                            AddEditProductScreen(
+                                isDarkMode = isDarkMode,
+                                templateViewModel = templateViewModel,
+                                isTemplateMode = true,
+                                existingTemplateId = templateId,
+                                onProductAction = {},
+                                onTemplateAction = {
+                                    navController.popBackStack()
+                                }
+                            )
                         }
                         composable(ProductScreen.Settings.route) {
                             SettingsScreen(

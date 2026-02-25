@@ -28,7 +28,8 @@ data class Product(
     val unitsPerPackage: Int = 1,
     val quantityPerUnit: Double,
     val unit: String, // kg, g, l, ml, units, etc.
-    val offer: Offer = Offer()
+    val offer: Offer = Offer(),
+    val barcode: String? = null
 ) : Parcelable {
     val totalQuantity: Double get() = unitsPerPackage * quantityPerUnit
     

@@ -4,6 +4,7 @@ import java.util.Locale
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -25,6 +26,11 @@ import androidx.compose.ui.unit.sp
 import com.tinaut1986.pricesmart.model.Product
 import com.tinaut1986.pricesmart.model.Offer
 import com.tinaut1986.pricesmart.model.OfferType
+import com.tinaut1986.pricesmart.util.ScannerUtils
+import com.tinaut1986.pricesmart.vms.TemplateViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tinaut1986.pricesmart.model.ProductTemplate
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,8 +38,29 @@ fun AddEditProductScreen(
     isDarkMode: Boolean,
     existingProduct: Product? = null,
     onProductAction: (Product) -> Unit,
-    onTutorialFinish: () -> Unit = {}
+    onTutorialFinish: () -> Unit = {},
+    initialBarcode: String? = null,
+    initialTemplateId: Long? = null,
+    templateViewModel: TemplateViewModel = viewModel(),
+    isTemplateMode: Boolean = false,
+    existingTemplateId: Long? = null,
+    onTemplateAction: () -> Unit = {}
 ) {
+    val scope = rememberCoroutineScope()
+    var existingTemplate by remember { mutableStateOf<ProductTemplate?>(null) }
+    
+    // Load existing template if editing template OR if we selected one to use as base
+    LaunchedEffect(existingTemplateId, initialTemplateId) {
+        val idToLoad = existingTemplateId ?: initialTemplateId
+        if (idToLoad != null && idToLoad != -1L) {
+            val template = templateViewModel.getTemplateById(idToLoad)
+            existingTemplate = template
+        }
+    }
+    var barcode by remember { mutableStateOf(existingProduct?.barcode ?: initialBarcode ?: "") }
+    var saveAsTemplate by remember { mutableStateOf(false) }
+
+
     var name by remember { mutableStateOf(existingProduct?.name ?: "") }
     var price by remember {
         mutableStateOf(existingProduct?.price?.let {
@@ -76,7 +103,32 @@ fun AddEditProductScreen(
     )
     var selectedUnitId by remember { mutableStateOf(existingProduct?.unit ?: "kg") }
 
-    val isEditing = existingProduct != null
+    // Update state when existingTemplate is loaded
+    LaunchedEffect(existingTemplate) {
+        existingTemplate?.let {
+            name = it.name
+            barcode = it.barcode ?: ""
+            unitsPerPackage = it.unitsPerPackage.toString()
+            quantityPerUnit = it.quantityPerUnit.toString()
+            selectedUnitId = it.unit
+        }
+    }
+
+    // Auto-load template if initialBarcode is provided (only if NOT in template mode or editing product)
+    LaunchedEffect(initialBarcode) {
+        if (initialBarcode != null && existingProduct == null && !isTemplateMode) {
+            val template = templateViewModel.getTemplateByBarcode(initialBarcode)
+            if (template != null) {
+                name = template.name
+                unitsPerPackage = template.unitsPerPackage.toString()
+                quantityPerUnit = template.quantityPerUnit.toString()
+                selectedUnitId = template.unit
+                barcode = template.barcode ?: ""
+            }
+        }
+    }
+
+    val isEditing = existingProduct != null || (isTemplateMode && existingTemplateId != null)
     val defaultProductName = stringResource(R.string.product_placeholder_name)
 
     val textFieldColors = OutlinedTextFieldDefaults.colors(
@@ -132,18 +184,78 @@ fun AddEditProductScreen(
             verticalArrangement = Arrangement.spacedBy(if (isLandscape) 12.dp else 20.dp)
         ) {
         Column {
+            val titleStr = when {
+                isTemplateMode && isEditing -> stringResource(R.string.template_edit_title)
+                isTemplateMode -> stringResource(R.string.template_add_title)
+                isEditing -> stringResource(R.string.edit_product_title)
+                else -> stringResource(R.string.add_product_title)
+            }
             Text(
-                if (isEditing) stringResource(R.string.edit_product_title) else stringResource(R.string.add_product_title),
+                titleStr,
                 style = if (isLandscape) MaterialTheme.typography.titleLarge else MaterialTheme.typography.headlineMedium,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color(0xFF2E7D32)
             )
-            if (!isLandscape) {
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    stringResource(R.string.product_data_desc),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = Color(0xFF616161)
+        }
+
+        // Barcode Section
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            OutlinedTextField(
+                value = barcode,
+                onValueChange = { barcode = it },
+                label = { Text(stringResource(R.string.barcode_label)) },
+                placeholder = { Text(stringResource(R.string.barcode_placeholder)) },
+                modifier = Modifier.weight(1f),
+                shape = RoundedCornerShape(14.dp),
+                colors = textFieldColors,
+                singleLine = true,
+                leadingIcon = {
+                    Icon(
+                        Icons.Default.QrCode,
+                        contentDescription = null,
+                        tint = Color(0xFF2E7D32)
+                    )
+                }
+            )
+            
+            IconButton(
+                onClick = {
+                    ScannerUtils.startScan(
+                        context = context,
+                        onSuccess = { scannedBarcode ->
+                            barcode = scannedBarcode
+                            // Try to load template
+                            scope.launch {
+                                val template = templateViewModel.getTemplateByBarcode(scannedBarcode)
+                                if (template != null) {
+                                    name = template.name
+                                    unitsPerPackage = template.unitsPerPackage.toString()
+                                    quantityPerUnit = template.quantityPerUnit.toString()
+                                    selectedUnitId = template.unit
+                                }
+                            }
+                        },
+                        onFailure = {
+                            // Handle error if needed
+                        }
+                    )
+                },
+                modifier = Modifier
+                    .size(56.dp)
+                    .background(
+                        if (isDarkMode) Color(0xFF2E7D32).copy(alpha = 0.2f) 
+                        else Color(0xFF2E7D32).copy(alpha = 0.1f),
+                        RoundedCornerShape(14.dp)
+                    )
+            ) {
+                Icon(
+                    Icons.Default.QrCodeScanner,
+                    contentDescription = stringResource(R.string.barcode_scan),
+                    tint = Color(0xFF2E7D32)
                 )
             }
         }
@@ -170,28 +282,30 @@ fun AddEditProductScreen(
                         singleLine = true
                     )
 
-                    OutlinedTextField(
-                        value = price,
-                        onValueChange = {
-                            if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) price =
-                                it.replace(',', '.')
-                        },
-                        label = { Text(stringResource(R.string.product_price)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                        modifier = Modifier.weight(1f)
-                            .then(if (tutorialStep == 1) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)) else Modifier),
-                        shape = RoundedCornerShape(14.dp),
-                        leadingIcon = {
-                            Icon(
-                                Icons.Filled.Euro,
-                                contentDescription = null,
-                                tint = Color(0xFF2E7D32),
-                                modifier = Modifier.size(18.dp)
-                            )
-                        },
-                        colors = textFieldColors,
-                        singleLine = true
-                    )
+                    if (!isTemplateMode) {
+                        OutlinedTextField(
+                            value = price,
+                            onValueChange = {
+                                if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) price =
+                                    it.replace(',', '.')
+                            },
+                            label = { Text(stringResource(R.string.product_price)) },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                            modifier = Modifier.weight(1f)
+                                .then(if (tutorialStep == 1) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)) else Modifier),
+                            shape = RoundedCornerShape(14.dp),
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Filled.Euro,
+                                    contentDescription = null,
+                                    tint = Color(0xFF2E7D32),
+                                    modifier = Modifier.size(18.dp)
+                                )
+                            },
+                            colors = textFieldColors,
+                            singleLine = true
+                        )
+                    }
                 }
             } else {
                 OutlinedTextField(
@@ -208,135 +322,21 @@ fun AddEditProductScreen(
                     singleLine = true
                 )
 
-                OutlinedTextField(
-                    value = price,
-                    onValueChange = {
-                        if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) price =
-                            it.replace(',', '.')
-                    },
-                    label = { Text(stringResource(R.string.product_price)) },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                    modifier = Modifier.fillMaxWidth()
-                        .then(if (tutorialStep == 1) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)) else Modifier),
-                    shape = RoundedCornerShape(14.dp),
-                    leadingIcon = {
-                        Icon(
-                            Icons.Filled.Euro,
-                            contentDescription = null,
-                            tint = Color(0xFF2E7D32)
-                        )
-                    },
-                    colors = textFieldColors,
-                    singleLine = true
-                )
-            }
-
-            if (showExtraOptions) {
-                if (isLandscape) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp)
-                    ) {
-                        OutlinedTextField(
-                            value = unitsPerPackage,
-                            onValueChange = { if (it.all { c -> c.isDigit() }) unitsPerPackage = it },
-                            label = { Text(stringResource(R.string.product_units_per_package)) },
-                            placeholder = { Text(stringResource(R.string.product_units_placeholder)) },
-                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                            modifier = Modifier.weight(1f).then(
-                                if (tutorialStep == 5) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
-                                else Modifier
-                            ),
-                            shape = RoundedCornerShape(14.dp),
-                            leadingIcon = {
-                                Icon(
-                                    Icons.Filled.Layers,
-                                    contentDescription = null,
-                                    tint = Color(0xFF2E7D32),
-                                    modifier = Modifier.size(18.dp)
-                                )
-                            },
-                            colors = textFieldColors,
-                            singleLine = true
-                        )
-
-                        Row(
-                            modifier = Modifier.weight(1f),
-                            horizontalArrangement = Arrangement.spacedBy(12.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            OutlinedTextField(
-                                value = quantityPerUnit,
-                                onValueChange = {
-                                    if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) quantityPerUnit =
-                                        it.replace(',', '.')
-                                },
-                                label = { Text(stringResource(R.string.product_quantity_per_unit)) },
-                                placeholder = { Text(stringResource(R.string.product_quantity_placeholder)) },
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                                modifier = Modifier.weight(1f).then(
-                                    if (tutorialStep == 2) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
-                                    else Modifier
-                                ),
-                                shape = RoundedCornerShape(14.dp),
-                                colors = textFieldColors,
-                                singleLine = true
-                            )
-
-                            var expanded by remember { mutableStateOf(false) }
-                            ExposedDropdownMenuBox(
-                                expanded = expanded,
-                                onExpandedChange = { expanded = !expanded },
-                                modifier = Modifier.width(110.dp).then(
-                                    if (tutorialStep == 3) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
-                                    else Modifier
-                                )
-                            ) {
-                                OutlinedTextField(
-                                    value = stringResource(
-                                        unitOptions.find { it.first == selectedUnitId }?.second
-                                            ?: R.string.unit_kg
-                                    ),
-                                    onValueChange = {},
-                                    readOnly = true,
-                                    label = { Text(stringResource(R.string.product_unit_label)) },
-                                    trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                                    colors = textFieldColors,
-                                    modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
-                                    shape = RoundedCornerShape(14.dp)
-                                )
-                                ExposedDropdownMenu(
-                                    expanded = expanded,
-                                    onDismissRequest = { expanded = false }
-                                ) {
-                                    unitOptions.forEach { (id, resId) ->
-                                        DropdownMenuItem(
-                                            text = { Text(stringResource(resId), style = MaterialTheme.typography.bodySmall) },
-                                            onClick = {
-                                                selectedUnitId = id
-                                                expanded = false
-                                            }
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                } else {
+                if (!isTemplateMode) {
                     OutlinedTextField(
-                        value = unitsPerPackage,
-                        onValueChange = { if (it.all { c -> c.isDigit() }) unitsPerPackage = it },
-                        label = { Text(stringResource(R.string.product_units_per_package)) },
-                        placeholder = { Text(stringResource(R.string.product_units_placeholder)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                        modifier = Modifier.fillMaxWidth().then(
-                            if (tutorialStep == 5) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
-                            else Modifier
-                        ),
+                        value = price,
+                        onValueChange = {
+                            if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) price =
+                                it.replace(',', '.')
+                        },
+                        label = { Text(stringResource(R.string.product_price)) },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                        modifier = Modifier.fillMaxWidth()
+                            .then(if (tutorialStep == 1) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)) else Modifier),
                         shape = RoundedCornerShape(14.dp),
                         leadingIcon = {
                             Icon(
-                                Icons.Filled.Layers,
+                                Icons.Filled.Euro,
                                 contentDescription = null,
                                 tint = Color(0xFF2E7D32)
                             )
@@ -347,90 +347,115 @@ fun AddEditProductScreen(
                 }
             }
 
-            if (!isLandscape || !showExtraOptions) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
+            // Always-visible row: Uds/paquete | Cantidad | Unidad
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                OutlinedTextField(
+                    value = unitsPerPackage,
+                    onValueChange = { if (it.all { c -> c.isDigit() }) unitsPerPackage = it },
+                    label = { Text(stringResource(R.string.product_units_per_package)) },
+                    placeholder = { Text("1") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.weight(1f).then(
+                        if (tutorialStep == 4) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
+                        else Modifier
+                    ),
+                    shape = RoundedCornerShape(14.dp),
+                    leadingIcon = {
+                        Icon(
+                            Icons.Filled.Layers,
+                            contentDescription = null,
+                            tint = Color(0xFF2E7D32),
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
+                    colors = textFieldColors,
+                    singleLine = true
+                )
+
+                OutlinedTextField(
+                    value = quantityPerUnit,
+                    onValueChange = {
+                        if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) quantityPerUnit =
+                            it.replace(',', '.')
+                    },
+                    label = { Text(stringResource(R.string.product_quantity_per_unit)) },
+                    placeholder = { Text(stringResource(R.string.product_quantity_placeholder)) },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                    modifier = Modifier.weight(1.3f).then(
+                        if (tutorialStep == 2) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
+                        else Modifier
+                    ),
+                    shape = RoundedCornerShape(14.dp),
+                    colors = textFieldColors,
+                    singleLine = true
+                )
+
+                var expanded by remember { mutableStateOf(false) }
+                ExposedDropdownMenuBox(
+                    expanded = expanded,
+                    onExpandedChange = { expanded = !expanded },
+                    modifier = Modifier.weight(1f).then(
+                        if (tutorialStep == 3) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
+                        else Modifier
+                    )
                 ) {
                     OutlinedTextField(
-                        value = quantityPerUnit,
-                        onValueChange = {
-                            if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) quantityPerUnit =
-                                it.replace(',', '.')
-                        },
-                        label = { Text(stringResource(R.string.product_quantity_per_unit)) },
-                        placeholder = { Text(stringResource(R.string.product_quantity_placeholder)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                        modifier = Modifier.weight(1f).then(
-                            if (tutorialStep == 2) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
-                            else Modifier
+                        value = stringResource(
+                            unitOptions.find { it.first == selectedUnitId }?.second
+                                ?: R.string.unit_kg
                         ),
-                        shape = RoundedCornerShape(14.dp),
+                        onValueChange = {},
+                        readOnly = true,
+                        label = { Text(stringResource(R.string.product_unit_label)) },
+                        trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
                         colors = textFieldColors,
-                        singleLine = true
+                        modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
+                        shape = RoundedCornerShape(14.dp)
                     )
-
-                    var expanded by remember { mutableStateOf(false) }
-                    ExposedDropdownMenuBox(
+                    ExposedDropdownMenu(
                         expanded = expanded,
-                        onExpandedChange = { expanded = !expanded },
-                        modifier = Modifier.width(130.dp).then(
-                            if (tutorialStep == 3) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
-                            else Modifier
-                        )
+                        onDismissRequest = { expanded = false }
                     ) {
-                        OutlinedTextField(
-                            value = stringResource(
-                                unitOptions.find { it.first == selectedUnitId }?.second
-                                    ?: R.string.unit_kg
-                            ),
-                            onValueChange = {},
-                            readOnly = true,
-                            label = { Text(stringResource(R.string.product_unit_label)) },
-                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-                            colors = textFieldColors,
-                            modifier = Modifier.menuAnchor(MenuAnchorType.PrimaryNotEditable, true),
-                            shape = RoundedCornerShape(14.dp)
-                        )
-                        ExposedDropdownMenu(
-                            expanded = expanded,
-                            onDismissRequest = { expanded = false }
-                        ) {
-                            unitOptions.forEach { (id, resId) ->
-                                DropdownMenuItem(
-                                    text = { Text(stringResource(resId)) },
-                                    onClick = {
-                                        selectedUnitId = id
-                                        expanded = false
-                                    }
-                                )
-                            }
+                        unitOptions.forEach { (id, resId) ->
+                            DropdownMenuItem(
+                                text = { Text(stringResource(resId)) },
+                                onClick = {
+                                    selectedUnitId = id
+                                    expanded = false
+                                }
+                            )
                         }
                     }
                 }
             }
 
-            // Toggle for Extra Options
-            TextButton(
-                onClick = { showExtraOptions = !showExtraOptions },
-                modifier = Modifier.align(Alignment.End)
-                    .then(if (tutorialStep == 4) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(4.dp)) else Modifier)
-            ) {
-                Icon(
-                    if (showExtraOptions) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Text(
-                    if (showExtraOptions) stringResource(R.string.product_hide_extra) else stringResource(
-                        R.string.product_show_extra
+            // Toggle for Offer Options (product mode only)
+            if (!isTemplateMode) {
+                TextButton(
+                    onClick = { showExtraOptions = !showExtraOptions },
+                    modifier = Modifier.align(Alignment.End)
+                        .then(if (tutorialStep == 5) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(4.dp)) else Modifier)
+                ) {
+                    Icon(
+                        if (showExtraOptions) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp)
                     )
-                )
+                    Spacer(modifier = Modifier.width(8.dp)
+                    )
+                    Text(
+                        if (showExtraOptions) stringResource(R.string.product_hide_extra) else stringResource(
+                            R.string.product_show_extra
+                        )
+                    )
+                }
             }
 
-            if (showExtraOptions) {
+            if (showExtraOptions && !isTemplateMode) {
                 // Offer Section
                 var offerExpanded by remember { mutableStateOf(false) }
                 val offerOptions = listOf(
@@ -559,7 +584,7 @@ fun AddEditProductScreen(
             val unitsVal = unitsPerPackage.toIntOrNull() ?: 1
             val quantVal = quantityPerUnit.toDoubleOrNull() ?: 0.0
 
-            if (quantVal > 0 && priceVal > 0) {
+            if (quantVal > 0 && priceVal > 0 && !isTemplateMode) {
                 val tempProduct = Product(
                     name = name,
                     price = priceVal,
@@ -672,17 +697,50 @@ fun AddEditProductScreen(
             }
         }
 
+        // Save as Template Toggle
+        if (!isEditing && !isTemplateMode) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable { saveAsTemplate = !saveAsTemplate }
+                    .padding(vertical = 4.dp)
+                    .then(if (tutorialStep == 7) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(8.dp)) else Modifier),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = saveAsTemplate,
+                    onCheckedChange = { saveAsTemplate = it },
+                    colors = CheckboxDefaults.colors(checkedColor = Color(0xFF2E7D32))
+                )
+                Text(
+                    stringResource(R.string.product_save_as_template),
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            }
+        }
+
         Spacer(modifier = Modifier.height(8.dp))
 
         Button(
             onClick = {
-                val priceValue = price.toDoubleOrNull()
+                val priceValue = price.toDoubleOrNull() ?: 0.0
                 val unitsValue = unitsPerPackage.toIntOrNull() ?: 1
-                val quantValue = quantityPerUnit.toDoubleOrNull()
+                val quantValue = quantityPerUnit.toDoubleOrNull() ?: 0.0
 
-                if (priceValue != null && quantValue != null) {
-                    onProductAction(
-                        Product(
+                if (isTemplateMode) {
+                    val template = ProductTemplate(
+                        id = existingTemplateId ?: 0,
+                        name = if (name.isBlank()) defaultProductName else name.trim(),
+                        unitsPerPackage = unitsValue,
+                        quantityPerUnit = quantValue,
+                        unit = selectedUnitId,
+                        barcode = barcode.ifBlank { null }
+                    )
+                    templateViewModel.insertTemplate(template)
+                    onTemplateAction()
+                } else {
+                    if (priceValue > 0 && quantValue > 0) {
+                        val finalProduct = Product(
                             id = existingProduct?.id ?: System.currentTimeMillis(),
                             name = if (name.isBlank()) defaultProductName else name.trim(),
                             price = priceValue,
@@ -693,9 +751,24 @@ fun AddEditProductScreen(
                                 type = offerType,
                                 value1 = offerValue1.toDoubleOrNull() ?: 0.0,
                                 value2 = offerValue2.toDoubleOrNull() ?: 0.0
-                            )
+                            ),
+                            barcode = barcode.ifBlank { null }
                         )
-                    )
+
+                        if (saveAsTemplate) {
+                            templateViewModel.insertTemplate(
+                                ProductTemplate(
+                                    name = finalProduct.name,
+                                    unitsPerPackage = finalProduct.unitsPerPackage,
+                                    quantityPerUnit = finalProduct.quantityPerUnit,
+                                    unit = finalProduct.unit,
+                                    barcode = finalProduct.barcode
+                                )
+                            )
+                        }
+
+                        onProductAction(finalProduct)
+                    }
                 }
             },
             modifier = Modifier
@@ -703,7 +776,7 @@ fun AddEditProductScreen(
                 .height(60.dp),
             shape = RoundedCornerShape(16.dp),
             colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)),
-            enabled = price.isNotBlank() && quantityPerUnit.isNotBlank(),
+            enabled = (if (isTemplateMode) name.isNotBlank() else price.isNotBlank()) && quantityPerUnit.isNotBlank(),
             elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
         ) {
             Icon(
@@ -753,9 +826,10 @@ fun AddEditProductScreen(
                                     1 -> stringResource(R.string.tutorial_step_price_title)
                                     2 -> stringResource(R.string.tutorial_step_qty_title)
                                     3 -> stringResource(R.string.tutorial_step_unit_title)
-                                    4 -> stringResource(R.string.tutorial_step_toggle_title)
-                                    5 -> stringResource(R.string.tutorial_step_extra_title)
-                                    else -> stringResource(R.string.tutorial_step_offers_title)
+                                    4 -> stringResource(R.string.tutorial_step_extra_title)
+                                    5 -> stringResource(R.string.tutorial_step_toggle_title)
+                                    6 -> stringResource(R.string.tutorial_step_offers_title)
+                                    else -> stringResource(R.string.tutorial_step_templates_title)
                                 },
                                 style = MaterialTheme.typography.titleLarge,
                                 fontWeight = FontWeight.Bold
@@ -776,9 +850,10 @@ fun AddEditProductScreen(
                                 1 -> stringResource(R.string.tutorial_step_price_desc)
                                 2 -> stringResource(R.string.tutorial_step_qty_desc)
                                 3 -> stringResource(R.string.tutorial_step_unit_desc)
-                                4 -> stringResource(R.string.tutorial_step_toggle_desc)
-                                5 -> stringResource(R.string.tutorial_step_extra_desc)
-                                else -> stringResource(R.string.tutorial_step_offers_desc)
+                                4 -> stringResource(R.string.tutorial_step_extra_desc)
+                                5 -> stringResource(R.string.tutorial_step_toggle_desc)
+                                6 -> stringResource(R.string.tutorial_step_offers_desc)
+                                else -> stringResource(R.string.tutorial_step_templates_desc)
                             },
                             style = MaterialTheme.typography.bodyMedium
                         )
@@ -801,7 +876,7 @@ fun AddEditProductScreen(
                             
                             Button(
                                 onClick = {
-                                    if (tutorialStep < 6) tutorialStep++
+                                    if (tutorialStep < 7) tutorialStep++
                                     else {
                                         prefs.edit().putBoolean("tutorial_shown", true).apply()
                                         prefs.edit().putBoolean("compare_tutorial_active", true).apply()
@@ -819,7 +894,7 @@ fun AddEditProductScreen(
                                 )
                             ) {
                                 Text(
-                                    if (tutorialStep < 6) stringResource(R.string.tutorial_next) 
+                                    if (tutorialStep < 7) stringResource(R.string.tutorial_next) 
                                     else stringResource(R.string.tutorial_finish),
                                     fontWeight = FontWeight.Bold
                                 )
