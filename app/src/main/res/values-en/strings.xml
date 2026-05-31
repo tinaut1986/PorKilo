@@ -61,9 +61,9 @@
     <string name="offer_extra_qty">Extra quantity free (%)</string>
     
     <string name="offer_desc_pct">-%s%% discount</string>
-    <string name="offer_desc_buy_x_pay_y">Buy %s pay %s</string>
+    <string name="offer_desc_buy_x_pay_y">Buy %1$s pay %2$s</string>
     <string name="offer_desc_nth_unit">%sth unit at -%s%%</string>
-    <string name="offer_desc_fixed_price">%s units for %s€</string>
+    <string name="offer_desc_fixed_price">%1$s units for %2$s€</string>
     <string name="offer_desc_extra_qty">+%s%% free</string>
     
     <string name="offer_savings">Save %d%%</string>

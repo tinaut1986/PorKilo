@@ -29,10 +29,50 @@ data class Product(
     val quantityPerUnit: Double,
     val unit: String, // kg, g, l, ml, units, etc.
     val offer: Offer = Offer(),
-    val barcode: String? = null
+    val barcode: String? = null,
+    val compareQuantity: Int = 1
 ) : Parcelable {
     val totalQuantity: Double get() = unitsPerPackage * quantityPerUnit
     
+    fun calculateTotalPrice(qty: Int): Double {
+        return when (offer.type) {
+            OfferType.NONE -> price * qty
+            OfferType.PERCENTAGE_DISCOUNT -> (price * (1 - offer.value1 / 100.0)) * qty
+            OfferType.BUY_X_PAY_Y -> {
+                val x = offer.value1.toInt()
+                val y = offer.value2.toInt()
+                if (x > 0) {
+                    val sets = qty / x
+                    val remainder = qty % x
+                    (sets * y + remainder) * price
+                } else price * qty
+            }
+            OfferType.NTH_UNIT_DISCOUNT -> {
+                val n = offer.value1.toInt()
+                val discount = offer.value2 / 100.0
+                if (n > 0) {
+                    val discountedUnits = qty / n
+                    val fullPriceUnits = qty - discountedUnits
+                    (fullPriceUnits * price) + (discountedUnits * price * (1 - discount))
+                } else price * qty
+            }
+            OfferType.FIXED_PRICE_FOR_X -> {
+                val x = offer.value1.toInt()
+                val fixedPrice = offer.value2
+                if (x > 0) {
+                    val sets = qty / x
+                    val remainder = qty % x
+                    (sets * fixedPrice) + (remainder * price)
+                } else price * qty
+            }
+            OfferType.EXTRA_QUANTITY -> price * qty
+        }
+    }
+
+    val totalComparePrice: Double get() = calculateTotalPrice(compareQuantity)
+
+    val pricePerUnitInCompare: Double get() = if (compareQuantity > 0) totalComparePrice / compareQuantity else 0.0
+
     val pricePerBaseUnit: Double get() {
         val u = unit.lowercase()
         val factor = when {
@@ -41,25 +81,7 @@ data class Product(
             else -> 1.0
         }
         
-        val effectivePrice = when (offer.type) {
-            OfferType.PERCENTAGE_DISCOUNT -> price * (1 - offer.value1 / 100.0)
-            OfferType.BUY_X_PAY_Y -> {
-                // value1 = X (buy), value2 = Y (pay)
-                if (offer.value1 > 0) price * (offer.value2 / offer.value1) else price
-            }
-            OfferType.NTH_UNIT_DISCOUNT -> {
-                // value1 = Unit index (N), value2 = Discount (%)
-                // Buy N units, the N-th one is -D%
-                // Cost for N units = (N-1)*price + price*(1 - D/100) = price * (N - D/100)
-                // Average price per 1 unit = price * (1 - (D/100)/N)
-                if (offer.value1 > 0) price * (1.0 - (offer.value2 / 100.0) / offer.value1) else price
-            }
-            OfferType.FIXED_PRICE_FOR_X -> {
-                // value1 = X units, value2 = Total price
-                if (offer.value1 > 0) offer.value2 / offer.value1 else price
-            }
-            else -> price
-        }
+        val effectivePrice = pricePerUnitInCompare
 
         val effectiveQuantity = if (offer.type == OfferType.EXTRA_QUANTITY) {
             totalQuantity * (1 + offer.value1 / 100.0)

@@ -50,18 +50,37 @@ fun CompareScreen(
 
     val displayProducts = if (isTutorialActive) {
         listOf(
-            Product(id = 9991, name = "Producto A (Barato)", price = 1.0, quantityPerUnit = 1.0, unit = "kg"),
-            Product(id = 9992, name = "Producto B (Caro)", price = 1.5, quantityPerUnit = 1.0, unit = "kg"),
             Product(
-                id = 9993, 
-                name = "Producto C (2ª al -80%)", 
-                price = 2.0, 
-                quantityPerUnit = 1.0, 
-                unit = "kg",
+                id = 9991,
+                name = "Producto A (3x2)",
+                price = 1.5,
+                quantityPerUnit = 1.0,
+                unit = "ud",
+                compareQuantity = 6,
                 offer = com.tinaut1986.pricesmart.model.Offer(
-                    type = OfferType.NTH_UNIT_DISCOUNT, 
-                    value1 = 2.0, 
-                    value2 = 80.0
+                    type = OfferType.BUY_X_PAY_Y,
+                    value1 = 3.0,
+                    value2 = 2.0
+                )
+            ),
+            Product(
+                id = 9992,
+                name = "Producto B (Sin oferta)",
+                price = 1.2,
+                quantityPerUnit = 1.0,
+                unit = "ud",
+                compareQuantity = 6
+            ),
+            Product(
+                id = 9993,
+                name = "Producto C (-20% dto)",
+                price = 1.4,
+                quantityPerUnit = 1.0,
+                unit = "ud",
+                compareQuantity = 5,
+                offer = com.tinaut1986.pricesmart.model.Offer(
+                    type = OfferType.PERCENTAGE_DISCOUNT,
+                    value1 = 20.0
                 )
             )
         )
@@ -376,6 +395,21 @@ fun ProductCard(
                         color = if (isDarkMode) Color.White else Color(0xFF333333)
                     )
 
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            Icons.Filled.CompareArrows,
+                            contentDescription = null,
+                            modifier = Modifier.size(14.dp),
+                            tint = Color.Gray
+                        )
+                        Spacer(modifier = Modifier.width(4.dp))
+                        Text(
+                            stringResource(R.string.product_compare_quantity) + ": ${product.compareQuantity}",
+                            style = MaterialTheme.typography.labelSmall,
+                            color = Color.Gray
+                        )
+                    }
+
                     if (product.offer.type != OfferType.NONE) {
                         Surface(
                             color = Color(0xFFFF9800).copy(alpha = 0.15f),
@@ -504,7 +538,12 @@ fun ProductCard(
                         color = Color.Gray
                     )
                     Text(
-                        "€${String.format(Locale.getDefault(), "%.2f", product.price)}",
+                        stringResource(R.string.compare_total_price, product.compareQuantity),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
+                    Text(
+                        "€${String.format(Locale.getDefault(), "%.2f", product.totalComparePrice)}",
                         style = MaterialTheme.typography.headlineSmall,
                         fontWeight = FontWeight.ExtraBold,
                         color = if (isDarkMode) Color.White else Color(0xFF1A1A1A)
@@ -515,24 +554,29 @@ fun ProductCard(
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
+                        stringResource(R.string.compare_price_per_unit, product.compareQuantity),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color.Gray
+                    )
+                    Text(
+                        "€${String.format(Locale.getDefault(), "%.4f", product.pricePerUnitInCompare)}/ud",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = accentColor
+                    )
+
+                    Spacer(modifier = Modifier.height(4.dp))
+
+                    Text(
                         stringResource(R.string.compare_price_per, baseUnitName),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
-                    if (product.savingPercentage > 0) {
-                        Text(
-                            "€${String.format(Locale.getDefault(), "%.2f", product.pricePerBaseUnitWithoutOffer)}/$baseUnitName",
-                            style = MaterialTheme.typography.bodySmall.copy(
-                                textDecoration = androidx.compose.ui.text.style.TextDecoration.LineThrough
-                            ),
-                            color = Color.Gray
-                        )
-                    }
                     Text(
                         "€${String.format(Locale.getDefault(), "%.4f", product.pricePerBaseUnit)}/$baseUnitName",
-                        style = MaterialTheme.typography.titleLarge,
-                        fontWeight = FontWeight.ExtraBold,
-                        color = accentColor
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = accentColor.copy(alpha = 0.8f)
                     )
                 }
             }

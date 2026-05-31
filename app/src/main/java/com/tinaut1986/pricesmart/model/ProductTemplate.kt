@@ -18,5 +18,6 @@ data class ProductTemplate(
     val unitsPerPackage: Int = 1,
     val quantityPerUnit: Double,
     val unit: String,
-    val barcode: String? = null
+    val barcode: String? = null,
+    val compareQuantity: Int = 1
 ) : Parcelable

@@ -76,6 +76,11 @@ fun AddEditProductScreen(
             existingProduct?.unitsPerPackage?.toString() ?: "1"
         )
     }
+    var compareQuantity by remember {
+        mutableStateOf(
+            existingProduct?.compareQuantity?.toString() ?: "1"
+        )
+    }
     var quantityPerUnit by remember {
         mutableStateOf(existingProduct?.quantityPerUnit?.let {
             if (it % 1 == 0.0) it.toInt().toString() else it.toString()
@@ -109,6 +114,7 @@ fun AddEditProductScreen(
             name = it.name
             barcode = it.barcode ?: ""
             unitsPerPackage = it.unitsPerPackage.toString()
+            compareQuantity = it.compareQuantity.toString()
             quantityPerUnit = it.quantityPerUnit.toString()
             selectedUnitId = it.unit
         }
@@ -121,6 +127,7 @@ fun AddEditProductScreen(
             if (template != null) {
                 name = template.name
                 unitsPerPackage = template.unitsPerPackage.toString()
+                compareQuantity = template.compareQuantity.toString()
                 quantityPerUnit = template.quantityPerUnit.toString()
                 selectedUnitId = template.unit
                 barcode = template.barcode ?: ""
@@ -160,14 +167,14 @@ fun AddEditProductScreen(
 
     // Force extra options during tutorial and auto-scroll
     LaunchedEffect(tutorialStep) {
-        if (tutorialStep >= 5) {
+        if (tutorialStep >= 6) {
             showExtraOptions = true
         }
         
         // Dynamic scroll based on step
         when (tutorialStep) {
-            in 0..3 -> scrollState.animateScrollTo(0)
-            5, 6 -> scrollState.animateScrollTo(Int.MAX_VALUE)
+            in 0..4 -> scrollState.animateScrollTo(0)
+            6, 7 -> scrollState.animateScrollTo(Int.MAX_VALUE)
         }
     }
 
@@ -377,6 +384,29 @@ fun AddEditProductScreen(
                 )
 
                 OutlinedTextField(
+                    value = compareQuantity,
+                    onValueChange = { if (it.all { c -> c.isDigit() }) compareQuantity = it },
+                    label = { Text(stringResource(R.string.product_compare_quantity)) },
+                    placeholder = { Text("1") },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+                    modifier = Modifier.weight(1f).then(
+                        if (tutorialStep == 5) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
+                        else Modifier
+                    ),
+                    shape = RoundedCornerShape(14.dp),
+                    leadingIcon = {
+                        Icon(
+                            Icons.Filled.CompareArrows,
+                            contentDescription = null,
+                            tint = Color(0xFF2E7D32),
+                            modifier = Modifier.size(18.dp)
+                        )
+                    },
+                    colors = textFieldColors,
+                    singleLine = true
+                )
+
+                OutlinedTextField(
                     value = quantityPerUnit,
                     onValueChange = {
                         if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) quantityPerUnit =
@@ -438,7 +468,7 @@ fun AddEditProductScreen(
                 TextButton(
                     onClick = { showExtraOptions = !showExtraOptions },
                     modifier = Modifier.align(Alignment.End)
-                        .then(if (tutorialStep == 5) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(4.dp)) else Modifier)
+                        .then(if (tutorialStep == 6) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(4.dp)) else Modifier)
                 ) {
                     Icon(
                         if (showExtraOptions) Icons.Filled.VisibilityOff else Icons.Filled.Visibility,
@@ -473,7 +503,7 @@ fun AddEditProductScreen(
                 )
 
                 Column(verticalArrangement = Arrangement.spacedBy(16.dp), modifier = Modifier.then(
-                    if (tutorialStep == 6) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)).padding(8.dp)
+                    if (tutorialStep == 7) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)).padding(8.dp)
                     else Modifier
                 )) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -583,6 +613,7 @@ fun AddEditProductScreen(
             val priceVal = price.toDoubleOrNull() ?: 0.0
             val unitsVal = unitsPerPackage.toIntOrNull() ?: 1
             val quantVal = quantityPerUnit.toDoubleOrNull() ?: 0.0
+            val compVal = compareQuantity.toIntOrNull() ?: 1
 
             if (quantVal > 0 && priceVal > 0 && !isTemplateMode) {
                 val tempProduct = Product(
@@ -595,7 +626,8 @@ fun AddEditProductScreen(
                         type = offerType,
                         value1 = offerValue1.toDoubleOrNull() ?: 0.0,
                         value2 = offerValue2.toDoubleOrNull() ?: 0.0
-                    )
+                    ),
+                    compareQuantity = compVal
                 )
 
                 Surface(
@@ -649,6 +681,18 @@ fun AddEditProductScreen(
                                     fontWeight = FontWeight.Bold,
                                     color = if (isDarkMode) Color.White else Color.Black
                                 )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    stringResource(R.string.product_total_price_for_qty, tempProduct.compareQuantity),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = if (isDarkMode) Color.LightGray else Color(0xFF616161)
+                                )
+                                Text(
+                                    "€${String.format(Locale.getDefault(), "%.2f", tempProduct.totalComparePrice)}",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (isDarkMode) Color.White else Color.Black
+                                )
                             }
                             Column(horizontalAlignment = Alignment.End) {
                                 val baseUnitRes = when (tempProduct.baseUnit) {
@@ -679,6 +723,18 @@ fun AddEditProductScreen(
                                     fontWeight = FontWeight.ExtraBold,
                                     color = Color(0xFF2E7D32)
                                 )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    stringResource(R.string.product_price_per_unit_for_qty),
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = if (isDarkMode) Color.LightGray else Color(0xFF616161)
+                                )
+                                Text(
+                                    "€${String.format(Locale.getDefault(), "%.4f", tempProduct.pricePerUnitInCompare)}/ud",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF2E7D32)
+                                )
                                 if (tempProduct.savingPercentage > 0) {
                                     Text(
                                         stringResource(
@@ -704,7 +760,7 @@ fun AddEditProductScreen(
                     .fillMaxWidth()
                     .clickable { saveAsTemplate = !saveAsTemplate }
                     .padding(vertical = 4.dp)
-                    .then(if (tutorialStep == 7) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(8.dp)) else Modifier),
+                    .then(if (tutorialStep == 8) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(8.dp)) else Modifier),
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Checkbox(
@@ -726,6 +782,7 @@ fun AddEditProductScreen(
                 val priceValue = price.toDoubleOrNull() ?: 0.0
                 val unitsValue = unitsPerPackage.toIntOrNull() ?: 1
                 val quantValue = quantityPerUnit.toDoubleOrNull() ?: 0.0
+                val compValue = compareQuantity.toIntOrNull() ?: 1
 
                 if (isTemplateMode) {
                     val template = ProductTemplate(
@@ -734,7 +791,8 @@ fun AddEditProductScreen(
                         unitsPerPackage = unitsValue,
                         quantityPerUnit = quantValue,
                         unit = selectedUnitId,
-                        barcode = barcode.ifBlank { null }
+                        barcode = barcode.ifBlank { null },
+                        compareQuantity = compValue
                     )
                     templateViewModel.insertTemplate(template)
                     onTemplateAction()
@@ -752,7 +810,8 @@ fun AddEditProductScreen(
                                 value1 = offerValue1.toDoubleOrNull() ?: 0.0,
                                 value2 = offerValue2.toDoubleOrNull() ?: 0.0
                             ),
-                            barcode = barcode.ifBlank { null }
+                            barcode = barcode.ifBlank { null },
+                            compareQuantity = compValue
                         )
 
                         if (saveAsTemplate) {
@@ -762,7 +821,8 @@ fun AddEditProductScreen(
                                     unitsPerPackage = finalProduct.unitsPerPackage,
                                     quantityPerUnit = finalProduct.quantityPerUnit,
                                     unit = finalProduct.unit,
-                                    barcode = finalProduct.barcode
+                                    barcode = finalProduct.barcode,
+                                    compareQuantity = finalProduct.compareQuantity
                                 )
                             )
                         }
@@ -796,7 +856,7 @@ fun AddEditProductScreen(
 
         // Tutorial Overlay (Non-modal)
         if (tutorialStep >= 0) {
-            val alignment = if (tutorialStep >= 6) Alignment.TopCenter else Alignment.BottomCenter
+            val alignment = if (tutorialStep >= 7) Alignment.TopCenter else Alignment.BottomCenter
             Box(
                 modifier = Modifier
                     .fillMaxSize()
@@ -812,7 +872,7 @@ fun AddEditProductScreen(
                     elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
                     modifier = Modifier
                         .fillMaxWidth(if (isLandscape) 0.6f else 1f)
-                        .padding(top = if (tutorialStep >= 6) 48.dp else 0.dp, bottom = if (tutorialStep < 6) 12.dp else 0.dp)
+                        .padding(top = if (tutorialStep >= 7) 48.dp else 0.dp, bottom = if (tutorialStep < 7) 12.dp else 0.dp)
                 ) {
                     Column(modifier = Modifier.padding(20.dp)) {
                         Row(
@@ -827,8 +887,9 @@ fun AddEditProductScreen(
                                     2 -> stringResource(R.string.tutorial_step_qty_title)
                                     3 -> stringResource(R.string.tutorial_step_unit_title)
                                     4 -> stringResource(R.string.tutorial_step_extra_title)
-                                    5 -> stringResource(R.string.tutorial_step_toggle_title)
-                                    6 -> stringResource(R.string.tutorial_step_offers_title)
+                                    5 -> stringResource(R.string.tutorial_step_compare_qty_title)
+                                    6 -> stringResource(R.string.tutorial_step_toggle_title)
+                                    7 -> stringResource(R.string.tutorial_step_offers_title)
                                     else -> stringResource(R.string.tutorial_step_templates_title)
                                 },
                                 style = MaterialTheme.typography.titleLarge,
@@ -851,8 +912,9 @@ fun AddEditProductScreen(
                                 2 -> stringResource(R.string.tutorial_step_qty_desc)
                                 3 -> stringResource(R.string.tutorial_step_unit_desc)
                                 4 -> stringResource(R.string.tutorial_step_extra_desc)
-                                5 -> stringResource(R.string.tutorial_step_toggle_desc)
-                                6 -> stringResource(R.string.tutorial_step_offers_desc)
+                                5 -> stringResource(R.string.tutorial_step_compare_qty_desc)
+                                6 -> stringResource(R.string.tutorial_step_toggle_desc)
+                                7 -> stringResource(R.string.tutorial_step_offers_desc)
                                 else -> stringResource(R.string.tutorial_step_templates_desc)
                             },
                             style = MaterialTheme.typography.bodyMedium
@@ -876,7 +938,7 @@ fun AddEditProductScreen(
                             
                             Button(
                                 onClick = {
-                                    if (tutorialStep < 7) tutorialStep++
+                                    if (tutorialStep < 8) tutorialStep++
                                     else {
                                         prefs.edit().putBoolean("tutorial_shown", true).apply()
                                         prefs.edit().putBoolean("compare_tutorial_active", true).apply()
@@ -894,7 +956,7 @@ fun AddEditProductScreen(
                                 )
                             ) {
                                 Text(
-                                    if (tutorialStep < 7) stringResource(R.string.tutorial_next) 
+                                    if (tutorialStep < 8) stringResource(R.string.tutorial_next)
                                     else stringResource(R.string.tutorial_finish),
                                     fontWeight = FontWeight.Bold
                                 )

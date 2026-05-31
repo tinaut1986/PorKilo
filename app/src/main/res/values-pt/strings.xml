@@ -63,7 +63,7 @@
     <string name="offer_desc_pct">-%s%% de desc.</string>
     <string name="offer_desc_buy_x_pay_y">Leva %s paga %s</string>
     <string name="offer_desc_nth_unit">%sª unidade a -%s%%</string>
-    <string name="offer_desc_fixed_price">%s uds. por %s€</string>
+    <string name="offer_desc_fixed_price">%1$s uds. por %2$s€</string>
     <string name="offer_desc_extra_qty">+%s%% grátis</string>
     
     <string name="offer_savings">Poupe %d%%</string>
