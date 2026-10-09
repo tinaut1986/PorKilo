@@ -1,6 +1,6 @@
-# PriceSmart 🛒
+# PorKilo 🛒
 
-**PriceSmart** es una utilidad para Android diseñada para comparar precios de productos basándose en su valor por unidad de medida. Permite calcular el ahorro real en compras diarias, especialmente cuando los envases tienen diferentes tamaños o incluyen ofertas complejas.
+**PorKilo** es una utilidad para Android diseñada para comparar precios de productos basándose en su valor por unidad de medida. Permite calcular el ahorro real en compras diarias, especialmente cuando los envases tienen diferentes tamaños o incluyen ofertas complejas.
 
 ## ✨ Funcionalidades
 
@@ -32,13 +32,13 @@
 ## 🚀 Cómo empezar
 
 ### Para Usuarios
-- Puedes descargar la última versión estable (APK) directamente desde la sección de **[Releases](https://github.com/tinaut1986/PriceSmart/releases)** de este repositorio.
+- Puedes descargar la última versión estable (APK) directamente desde la sección de **[Releases](https://github.com/tinaut1986/PorKilo/releases)** de este repositorio.
 
 ### Para Desarrolladores
 1. Clona este repositorio.
 2. Ábrelo con **Android Studio (Ladybug 2024.2.1 o superior)**.
 3. Compila y ejecuta en un dispositivo con Android 5.0 (API 21) o superior.
-4. Las compilaciones *debug* se instalan como una app aparte (**PriceSmart Dev**, `com.tinaut1986.pricesmart.debug`, icono rojo), de modo que pueden convivir con la versión estable sin desinstalarla.
+4. Las compilaciones *debug* se instalan como una app aparte (**PorKilo Dev**, `com.tinaut1986.porkilo.debug`, icono rojo), de modo que pueden convivir con la versión estable sin desinstalarla.
 
 ---
 

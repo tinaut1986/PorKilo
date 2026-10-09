@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PriceSmart</string>
+    <string name="app_name">PorKilo</string>
     <string name="screen_compare">比较</string>
     <string name="screen_add">添加</string>
     <string name="screen_settings">设置</string>

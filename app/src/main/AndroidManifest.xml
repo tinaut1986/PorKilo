@@ -10,12 +10,12 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_icon"
         android:supportsRtl="true"
-        android:theme="@style/Theme.PriceSmart">
+        android:theme="@style/Theme.PorKilo">
         <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
-            android:theme="@style/Theme.PriceSmart">
+            android:theme="@style/Theme.PorKilo">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

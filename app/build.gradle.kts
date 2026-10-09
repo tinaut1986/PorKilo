@@ -10,13 +10,13 @@ plugins {
 }
 
 android {
-    namespace = "com.tinaut1986.pricesmart"
+    namespace = "com.tinaut1986.porkilo"
     compileSdk {
         version = release(36)
     }
 
     defaultConfig {
-        applicationId = "com.tinaut1986.pricesmart"
+        applicationId = "com.tinaut1986.porkilo"
         minSdk = 21
         targetSdk = 36
         versionCode = 5
@@ -64,7 +64,7 @@ android {
     applicationVariants.all {
         outputs.all {
             val output = this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
-            output.outputFileName = "PriceSmart_v${versionName}_${name}.apk"
+            output.outputFileName = "PorKilo_v${versionName}_${name}.apk"
         }
     }
     compileOptions {
