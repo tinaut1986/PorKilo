@@ -47,6 +47,7 @@
     <string name="product_price_per_unit_for_qty">Prix moyen/article</string>
     <string name="product_save_changes">ENREGISTRER LES MODIFICATIONS</string>
     <string name="product_add_button">AJOUTER LE PRODUIT</string>
+    <string name="template_save_button">ENREGISTRER LE MODÈLE</string>
     <string name="product_placeholder_name">Produit</string>
     
     <string name="unit_kg">kg</string>

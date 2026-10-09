@@ -19,6 +19,5 @@ data class ProductTemplate(
     val quantityPerUnit: Double,
     val unit: String,
     val barcode: String? = null,
-    val compareQuantity: Int = 1,
     val rating: Float = 0f // 0 = not rated, otherwise 0.5 to 5 in steps of 0.5
 ) : Parcelable

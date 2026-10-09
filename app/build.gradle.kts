@@ -129,6 +129,11 @@ android {
     }
 }
 
+// Room schema history, needed for automatic migrations between database versions
+ksp {
+    arg("room.schemaLocation", "$projectDir/schemas")
+}
+
 dependencies {
     implementation("androidx.appcompat:appcompat:1.7.0")
     implementation(libs.androidx.core.ktx)

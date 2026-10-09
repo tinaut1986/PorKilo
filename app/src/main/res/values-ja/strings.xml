@@ -47,6 +47,7 @@
     <string name="product_price_per_unit_for_qty">1個あたりの平均価格</string>
     <string name="product_save_changes">変更を保存</string>
     <string name="product_add_button">製品を追加</string>
+    <string name="template_save_button">テンプレートを保存</string>
     <string name="product_placeholder_name">製品</string>
     
     <string name="unit_kg">kg</string>

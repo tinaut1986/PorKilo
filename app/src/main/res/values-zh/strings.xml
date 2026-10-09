@@ -47,6 +47,7 @@
     <string name="product_price_per_unit_for_qty">平均单件价格</string>
     <string name="product_save_changes">保存更改</string>
     <string name="product_add_button">添加产品</string>
+    <string name="template_save_button">保存模板</string>
     <string name="product_placeholder_name">产品</string>
     
     <string name="unit_kg">kg</string>

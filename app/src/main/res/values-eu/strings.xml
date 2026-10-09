@@ -47,6 +47,7 @@
     <string name="product_price_per_unit_for_qty">Batez besteko prezioa/artikulua</string>
     <string name="product_save_changes">GORDE ALDAKETAK</string>
     <string name="product_add_button">GEHITU PRODUKTUA</string>
+    <string name="template_save_button">GORDE TXANTILOIA</string>
     <string name="product_placeholder_name">Produktua</string>
     
     <string name="unit_kg">kg</string>

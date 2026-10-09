@@ -128,7 +128,6 @@ fun AddEditProductScreen(
             name = it.name
             barcode = it.barcode ?: ""
             unitsPerPackage = it.unitsPerPackage.toString()
-            compareQuantity = it.compareQuantity.toString()
             quantityPerUnit = it.quantityPerUnit.toString()
             selectedUnitId = it.unit
             rating = it.rating
@@ -143,7 +142,6 @@ fun AddEditProductScreen(
             if (template != null) {
                 name = template.name
                 unitsPerPackage = template.unitsPerPackage.toString()
-                compareQuantity = template.compareQuantity.toString()
                 quantityPerUnit = template.quantityPerUnit.toString()
                 selectedUnitId = template.unit
                 barcode = template.barcode ?: ""
@@ -432,10 +430,6 @@ fun AddEditProductScreen(
                     colors = textFieldColors,
                     singleLine = true
                 )
-
-                if (isTemplateMode) {
-                    compareQuantityField(Modifier.weight(1f))
-                }
 
                 OutlinedTextField(
                     value = quantityPerUnit,
@@ -853,7 +847,6 @@ fun AddEditProductScreen(
                         quantityPerUnit = quantValue,
                         unit = selectedUnitId,
                         barcode = barcode.ifBlank { null },
-                        compareQuantity = compValue,
                         rating = rating
                     )
                     templateViewModel.insertTemplate(template)
@@ -889,7 +882,6 @@ fun AddEditProductScreen(
                                     quantityPerUnit = finalProduct.quantityPerUnit,
                                     unit = finalProduct.unit,
                                     barcode = finalProduct.barcode,
-                                    compareQuantity = finalProduct.compareQuantity,
                                     rating = rating
                                 )
                             )
@@ -913,7 +905,11 @@ fun AddEditProductScreen(
             )
             Spacer(modifier = Modifier.width(12.dp))
             Text(
-                if (isEditing) stringResource(R.string.product_save_changes) else stringResource(R.string.product_add_button),
+                when {
+                    isEditing -> stringResource(R.string.product_save_changes)
+                    isTemplateMode -> stringResource(R.string.template_save_button)
+                    else -> stringResource(R.string.product_add_button)
+                },
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.ExtraBold,
                 letterSpacing = 1.sp

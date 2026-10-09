@@ -47,6 +47,7 @@
     <string name="product_price_per_unit_for_qty">Prezo medio/artigo</string>
     <string name="product_save_changes">GARDAR CAMBIOS</string>
     <string name="product_add_button">ENGADIR PRODUTO</string>
+    <string name="template_save_button">GARDAR FORMATO</string>
     <string name="product_placeholder_name">Produto</string>
     
     <string name="unit_kg">kg</string>
