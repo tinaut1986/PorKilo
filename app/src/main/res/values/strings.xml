@@ -25,8 +25,8 @@
     <string name="compare_edit_product">Editar producto</string>
     <string name="compare_delete_product">Eliminar producto</string>
     <string name="compare_price_per">Precio por %s</string>
-    <string name="compare_price_per_unit">€/ud (para %d uds)</string>
-    <string name="compare_total_price">Total (%d uds)</string>
+    <string name="compare_price_per_unit">Precio medio/artículo</string>
+    <string name="compare_total_price">Total (×%d)</string>
     <string name="compare_more_expensive">%d%% más caro que la mejor opción</string>
     
     <string name="add_product_title">Añadir producto</string>
@@ -34,18 +34,17 @@
     <string name="product_data_desc">Completa los datos para comparar el precio real</string>
     <string name="product_name">Nombre del producto</string>
     <string name="product_name_placeholder">ej: Tomate frito</string>
-    <string name="product_price">Precio Total (€)</string>
+    <string name="product_price">Precio por paquete (€)</string>
     <string name="product_units_per_package">Unidades por paquete</string>
     <string name="product_units_placeholder">ej: 3 (latas)</string>
-    <string name="product_compare_quantity">Artículos a comparar</string>
-    <string name="product_compare_quantity_placeholder">ej: 6</string>
+    <string name="product_compare_quantity">Artículos a comprar</string>
     <string name="product_quantity_per_unit">Cant. por unidad</string>
     <string name="product_quantity_placeholder">ej: 250</string>
     <string name="product_unit_label">Unidad</string>
     <string name="product_calculation_title">Cálculo Automático</string>
-    <string name="product_total_label">Total</string>
-    <string name="product_total_price_for_qty">Precio para %d uds.</string>
-    <string name="product_price_per_unit_for_qty">Precio medio/unidad</string>
+    <string name="product_total_label">Cantidad total</string>
+    <string name="product_total_price_for_qty">Precio total (×%d)</string>
+    <string name="product_price_per_unit_for_qty">Precio medio/artículo</string>
     <string name="product_save_changes">GUARDAR CAMBIOS</string>
     <string name="product_add_button">AÑADIR PRODUCTO</string>
     <string name="product_placeholder_name">Producto</string>
@@ -71,7 +70,7 @@
     <string name="offer_desc_fixed_price">%1$s uds. por %2$s€</string>
     <string name="offer_desc_extra_qty">+%s%% gratis</string>
     
-    <string name="offer_savings">Ahórrrate un %d%%</string>
+    <string name="offer_savings">Ahórrate un %d%%</string>
 
     <string name="offer_value_pct">Porcentaje de descuento</string>
     <string name="offer_value_buy_x">Unidades que compras (X)</string>
@@ -98,15 +97,15 @@
     <string name="tutorial_step_name_title">Nombre del producto</string>
     <string name="tutorial_step_name_desc">Ponle un nombre para identificarlo rápidamente (opcional).</string>
     <string name="tutorial_step_price_title">Precio</string>
-    <string name="tutorial_step_price_desc">Introduce el precio total que marca la etiqueta.</string>
+    <string name="tutorial_step_price_desc">Introduce el precio de un paquete, tal como aparece en la etiqueta.</string>
     <string name="tutorial_step_qty_title">Cantidad</string>
     <string name="tutorial_step_qty_desc">Indica el peso o volumen del producto (ej: 500 para 500g).</string>
     <string name="tutorial_step_unit_title">Unidad</string>
     <string name="tutorial_step_unit_desc">Selecciona la unidad de medida para calcular el precio base.</string>
     <string name="tutorial_step_extra_title">Unidades por paquete</string>
     <string name="tutorial_step_extra_desc">Si el producto es un pack (ej: 6 latas), indica cuántas unidades trae. Por defecto es 1.</string>
-    <string name="tutorial_step_compare_qty_title">Artículos a comparar</string>
-    <string name="tutorial_step_compare_qty_desc">Indica cuántos artículos quieres comparar (ej: 6 unidades para ver el efecto de un 3x2).</string>
+    <string name="tutorial_step_compare_qty_title">Artículos a comprar</string>
+    <string name="tutorial_step_compare_qty_desc">Indica cuántos artículos vas a comprar. Las ofertas por lotes (3x2, 2ª unidad, X por precio fijo) solo se aplican a los lotes completos.</string>
     <string name="tutorial_step_toggle_title">Ofertas especiales</string>
     <string name="tutorial_step_toggle_desc">Pulsa aquí para ver opciones de ofertas como descuentos, 3x2 y más.</string>
     <string name="tutorial_step_offers_title">Ofertas</string>

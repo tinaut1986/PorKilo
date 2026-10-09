@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import com.tinaut1986.pricesmart.util.formatQuantity
 import com.tinaut1986.pricesmart.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -397,14 +398,14 @@ fun ProductCard(
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
-                            Icons.Filled.CompareArrows,
+                            Icons.Filled.ShoppingCart,
                             contentDescription = null,
                             modifier = Modifier.size(14.dp),
                             tint = Color.Gray
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
-                            stringResource(R.string.product_compare_quantity) + ": ${product.compareQuantity}",
+                            stringResource(R.string.product_compare_quantity) + ": ${product.effectiveCompareQuantity}",
                             style = MaterialTheme.typography.labelSmall,
                             color = Color.Gray
                         )
@@ -527,10 +528,15 @@ fun ProductCard(
                 val baseUnitName = stringResource(baseUnitRes)
 
                 Column {
-                    val quantityText = if (product.unitsPerPackage > 1) {
-                        "${product.unitsPerPackage} x ${product.quantityPerUnit} $unitName (${product.totalQuantity} $unitName)"
+                    val packageText = if (product.unitsPerPackage > 1) {
+                        "${product.unitsPerPackage} x ${formatQuantity(product.quantityPerUnit)} $unitName"
                     } else {
-                        "${product.quantityPerUnit} $unitName"
+                        "${formatQuantity(product.quantityPerUnit)} $unitName"
+                    }
+                    val quantityText = if (product.effectiveCompareQuantity > 1 || product.unitsPerPackage > 1) {
+                        "$packageText (${formatQuantity(product.totalCompareQuantity)} $unitName)"
+                    } else {
+                        packageText
                     }
                     Text(
                         quantityText,
@@ -538,7 +544,7 @@ fun ProductCard(
                         color = Color.Gray
                     )
                     Text(
-                        stringResource(R.string.compare_total_price, product.compareQuantity),
+                        stringResource(R.string.compare_total_price, product.effectiveCompareQuantity),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
@@ -554,12 +560,12 @@ fun ProductCard(
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
-                        stringResource(R.string.compare_price_per_unit, product.compareQuantity),
+                        stringResource(R.string.compare_price_per_unit),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color.Gray
                     )
                     Text(
-                        "€${String.format(Locale.getDefault(), "%.4f", product.pricePerUnitInCompare)}/ud",
+                        "€${String.format(Locale.getDefault(), "%.2f", product.pricePerUnitInCompare)}",
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.ExtraBold,
                         color = accentColor

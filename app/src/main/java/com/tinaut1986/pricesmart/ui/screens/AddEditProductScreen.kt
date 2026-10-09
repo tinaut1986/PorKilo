@@ -27,6 +27,7 @@ import com.tinaut1986.pricesmart.model.Product
 import com.tinaut1986.pricesmart.model.Offer
 import com.tinaut1986.pricesmart.model.OfferType
 import com.tinaut1986.pricesmart.util.ScannerUtils
+import com.tinaut1986.pricesmart.util.formatQuantity
 import com.tinaut1986.pricesmart.vms.TemplateViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tinaut1986.pricesmart.model.ProductTemplate
@@ -160,6 +161,31 @@ fun AddEditProductScreen(
     var tutorialStep by remember {
         mutableStateOf(
             if (prefs.getBoolean("tutorial_shown", false)) -1 else 0
+        )
+    }
+
+    val compareQuantityField: @Composable (Modifier) -> Unit = { modifier ->
+        OutlinedTextField(
+            value = compareQuantity,
+            onValueChange = { if (it.all { c -> c.isDigit() }) compareQuantity = it },
+            label = { Text(stringResource(R.string.product_compare_quantity)) },
+            placeholder = { Text("1") },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = modifier.then(
+                if (tutorialStep == 5) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
+                else Modifier
+            ),
+            shape = RoundedCornerShape(14.dp),
+            leadingIcon = {
+                Icon(
+                    Icons.Filled.ShoppingCart,
+                    contentDescription = null,
+                    tint = Color(0xFF2E7D32),
+                    modifier = Modifier.size(18.dp)
+                )
+            },
+            colors = textFieldColors,
+            singleLine = true
         )
     }
 
@@ -312,6 +338,7 @@ fun AddEditProductScreen(
                             colors = textFieldColors,
                             singleLine = true
                         )
+                        compareQuantityField(Modifier.weight(0.7f))
                     }
                 }
             } else {
@@ -330,31 +357,37 @@ fun AddEditProductScreen(
                 )
 
                 if (!isTemplateMode) {
-                    OutlinedTextField(
-                        value = price,
-                        onValueChange = {
-                            if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) price =
-                                it.replace(',', '.')
-                        },
-                        label = { Text(stringResource(R.string.product_price)) },
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
-                        modifier = Modifier.fillMaxWidth()
-                            .then(if (tutorialStep == 1) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)) else Modifier),
-                        shape = RoundedCornerShape(14.dp),
-                        leadingIcon = {
-                            Icon(
-                                Icons.Filled.Euro,
-                                contentDescription = null,
-                                tint = Color(0xFF2E7D32)
-                            )
-                        },
-                        colors = textFieldColors,
-                        singleLine = true
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        OutlinedTextField(
+                            value = price,
+                            onValueChange = {
+                                if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) price =
+                                    it.replace(',', '.')
+                            },
+                            label = { Text(stringResource(R.string.product_price)) },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                            modifier = Modifier.weight(1f)
+                                .then(if (tutorialStep == 1) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp)) else Modifier),
+                            shape = RoundedCornerShape(14.dp),
+                            leadingIcon = {
+                                Icon(
+                                    Icons.Filled.Euro,
+                                    contentDescription = null,
+                                    tint = Color(0xFF2E7D32)
+                                )
+                            },
+                            colors = textFieldColors,
+                            singleLine = true
+                        )
+                        compareQuantityField(Modifier.weight(0.8f))
+                    }
                 }
             }
 
-            // Always-visible row: Uds/paquete | Cantidad | Unidad
+            // Always-visible row: units per package | quantity per unit | unit
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -383,28 +416,9 @@ fun AddEditProductScreen(
                     singleLine = true
                 )
 
-                OutlinedTextField(
-                    value = compareQuantity,
-                    onValueChange = { if (it.all { c -> c.isDigit() }) compareQuantity = it },
-                    label = { Text(stringResource(R.string.product_compare_quantity)) },
-                    placeholder = { Text("1") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-                    modifier = Modifier.weight(1f).then(
-                        if (tutorialStep == 5) Modifier.border(2.dp, Color(0xFFFF9800), RoundedCornerShape(14.dp))
-                        else Modifier
-                    ),
-                    shape = RoundedCornerShape(14.dp),
-                    leadingIcon = {
-                        Icon(
-                            Icons.Filled.CompareArrows,
-                            contentDescription = null,
-                            tint = Color(0xFF2E7D32),
-                            modifier = Modifier.size(18.dp)
-                        )
-                    },
-                    colors = textFieldColors,
-                    singleLine = true
-                )
+                if (isTemplateMode) {
+                    compareQuantityField(Modifier.weight(1f))
+                }
 
                 OutlinedTextField(
                     value = quantityPerUnit,
@@ -573,8 +587,17 @@ fun AddEditProductScreen(
                             OutlinedTextField(
                                 value = offerValue1,
                                 onValueChange = {
-                                    if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) offerValue1 =
-                                        it.replace(',', '.')
+                                    if (it.all { c -> c.isDigit() || c == '.' || c == ',' }) {
+                                        offerValue1 = it.replace(',', '.')
+                                        // Default the purchase quantity to one full offer batch so the offer applies
+                                        val batchSize = offerValue1.toDoubleOrNull()?.toInt() ?: 0
+                                        val isBatchOffer = offerType == OfferType.BUY_X_PAY_Y ||
+                                            offerType == OfferType.NTH_UNIT_DISCOUNT ||
+                                            offerType == OfferType.FIXED_PRICE_FOR_X
+                                        if (isBatchOffer && batchSize > 1 && (compareQuantity.toIntOrNull() ?: 1) <= 1) {
+                                            compareQuantity = batchSize.toString()
+                                        }
+                                    }
                                 },
                                 label = { Text(stringResource(label1)) },
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
@@ -613,7 +636,7 @@ fun AddEditProductScreen(
             val priceVal = price.toDoubleOrNull() ?: 0.0
             val unitsVal = unitsPerPackage.toIntOrNull() ?: 1
             val quantVal = quantityPerUnit.toDoubleOrNull() ?: 0.0
-            val compVal = compareQuantity.toIntOrNull() ?: 1
+            val compVal = (compareQuantity.toIntOrNull() ?: 1).coerceAtLeast(1)
 
             if (quantVal > 0 && priceVal > 0 && !isTemplateMode) {
                 val tempProduct = Product(
@@ -676,14 +699,14 @@ fun AddEditProductScreen(
                                     color = if (isDarkMode) Color.LightGray else Color(0xFF616161)
                                 )
                                 Text(
-                                    "${tempProduct.totalQuantity} ${stringResource(unitRes)}",
+                                    "${formatQuantity(tempProduct.totalCompareQuantity)} ${stringResource(unitRes)}",
                                     style = MaterialTheme.typography.bodyLarge,
                                     fontWeight = FontWeight.Bold,
                                     color = if (isDarkMode) Color.White else Color.Black
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
-                                    stringResource(R.string.product_total_price_for_qty, tempProduct.compareQuantity),
+                                    stringResource(R.string.product_total_price_for_qty, tempProduct.effectiveCompareQuantity),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = if (isDarkMode) Color.LightGray else Color(0xFF616161)
                                 )
@@ -730,7 +753,7 @@ fun AddEditProductScreen(
                                     color = if (isDarkMode) Color.LightGray else Color(0xFF616161)
                                 )
                                 Text(
-                                    "€${String.format(Locale.getDefault(), "%.4f", tempProduct.pricePerUnitInCompare)}/ud",
+                                    "€${String.format(Locale.getDefault(), "%.2f", tempProduct.pricePerUnitInCompare)}",
                                     style = MaterialTheme.typography.bodyLarge,
                                     fontWeight = FontWeight.Bold,
                                     color = Color(0xFF2E7D32)
@@ -782,7 +805,7 @@ fun AddEditProductScreen(
                 val priceValue = price.toDoubleOrNull() ?: 0.0
                 val unitsValue = unitsPerPackage.toIntOrNull() ?: 1
                 val quantValue = quantityPerUnit.toDoubleOrNull() ?: 0.0
-                val compValue = compareQuantity.toIntOrNull() ?: 1
+                val compValue = (compareQuantity.toIntOrNull() ?: 1).coerceAtLeast(1)
 
                 if (isTemplateMode) {
                     val template = ProductTemplate(

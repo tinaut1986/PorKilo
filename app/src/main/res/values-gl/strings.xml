@@ -25,6 +25,8 @@
     <string name="compare_edit_product">Editar produto</string>
     <string name="compare_delete_product">Eliminar produto</string>
     <string name="compare_price_per">Prezo por %s</string>
+    <string name="compare_total_price">Total (×%d)</string>
+    <string name="compare_price_per_unit">Prezo medio/artigo</string>
     <string name="compare_more_expensive">Un %d%% máis caro que a mellor opción</string>
     
     <string name="add_product_title">Engadir produto</string>
@@ -32,14 +34,17 @@
     <string name="product_data_desc">Completa os datos para comparar o prezo real</string>
     <string name="product_name">Nome do produto</string>
     <string name="product_name_placeholder">ex: Tomate frito</string>
-    <string name="product_price">Prezo Total (€)</string>
+    <string name="product_price">Prezo por paquete (€)</string>
     <string name="product_units_per_package">Unidades por paquete</string>
     <string name="product_units_placeholder">ex: 3 (latas)</string>
+    <string name="product_compare_quantity">Artigos a mercar</string>
     <string name="product_quantity_per_unit">Cant. por unidade</string>
     <string name="product_quantity_placeholder">ex: 250</string>
     <string name="product_unit_label">Unidade</string>
     <string name="product_calculation_title">Cálculo Automático</string>
-    <string name="product_total_label">Total</string>
+    <string name="product_total_label">Cantidade total</string>
+    <string name="product_total_price_for_qty">Prezo total (×%d)</string>
+    <string name="product_price_per_unit_for_qty">Prezo medio/artigo</string>
     <string name="product_save_changes">GARDAR CAMBIOS</string>
     <string name="product_add_button">ENGADIR PRODUTO</string>
     <string name="product_placeholder_name">Produto</string>
@@ -92,7 +97,7 @@
     <string name="tutorial_step_name_title">Nombre do produto</string>
     <string name="tutorial_step_name_desc">Ponlle un nome para identificalo facilmente (opcional).</string>
     <string name="tutorial_step_price_title">Prezo</string>
-    <string name="tutorial_step_price_desc">Introduce o prezo total que marca a etiqueta.</string>
+    <string name="tutorial_step_price_desc">Introduce o prezo dun paquete, tal como aparece na etiqueta.</string>
     <string name="tutorial_step_qty_title">Cantidade</string>
     <string name="tutorial_step_qty_desc">Indica o peso ou volume do produto (ex: 500 para 500g).</string>
     <string name="tutorial_step_unit_title">Unidade</string>
@@ -132,6 +137,8 @@
     <string name="template_edit_title">Editar formato</string>
     <string name="tutorial_step_extra_title">Unidades por paquete</string>
     <string name="tutorial_step_extra_desc">Se é un pack (ex: 6 latas), indica cantas unidades trae. Por defecto é 1.</string>
+    <string name="tutorial_step_compare_qty_title">Artigos a mercar</string>
+    <string name="tutorial_step_compare_qty_desc">Indica cantos artigos vas mercar. As ofertas por lotes (3x2, 2ª unidade, X por prezo fixo) só se aplican aos lotes completos.</string>
     <string name="tutorial_step_toggle_title">Ofertas especiais</string>
     <string name="tutorial_step_toggle_desc">Preme aquí para ver opcións de oferta como descontos, 3x2 e máis.</string>
     <string name="tutorial_step_templates_title">Formatos gardados</string>

@@ -1,5 +1,6 @@
 package com.tinaut1986.pricesmart.model
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.Index
@@ -19,5 +20,6 @@ data class ProductTemplate(
     val quantityPerUnit: Double,
     val unit: String,
     val barcode: String? = null,
+    @ColumnInfo(defaultValue = "1")
     val compareQuantity: Int = 1
 ) : Parcelable

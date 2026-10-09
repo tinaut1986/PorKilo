@@ -25,6 +25,8 @@
     <string name="compare_edit_product">Product bewerken</string>
     <string name="compare_delete_product">Product verwijderen</string>
     <string name="compare_price_per">Prijs per %s</string>
+    <string name="compare_total_price">Totaal (×%d)</string>
+    <string name="compare_price_per_unit">Gem. prijs/artikel</string>
     <string name="compare_more_expensive">%d%% duurder dan de beste optie</string>
     
     <string name="add_product_title">Product toevoegen</string>
@@ -32,14 +34,17 @@
     <string name="product_data_desc">Vul de gegevens in om de werkelijke prijs te vergelijken</string>
     <string name="product_name">Productnaam</string>
     <string name="product_name_placeholder">bijv: Tomatensaus</string>
-    <string name="product_price">Totaalprijs (€)</string>
+    <string name="product_price">Prijs per verpakking (€)</string>
     <string name="product_units_per_package">Eenheden per pakket</string>
     <string name="product_units_placeholder">bijv: 3 (blikken)</string>
+    <string name="product_compare_quantity">Te kopen artikelen</string>
     <string name="product_quantity_per_unit">Hoeveelh. per eenheid</string>
     <string name="product_quantity_placeholder">bijv: 250</string>
     <string name="product_unit_label">Eenheid</string>
     <string name="product_calculation_title">Automatische berekening</string>
-    <string name="product_total_label">Totaal</string>
+    <string name="product_total_label">Totale hoeveelheid</string>
+    <string name="product_total_price_for_qty">Totaalprijs (×%d)</string>
+    <string name="product_price_per_unit_for_qty">Gem. prijs/artikel</string>
     <string name="product_save_changes">WIJZIGINGEN OPSLAAN</string>
     <string name="product_add_button">PRODUCT TOEVOEGEN</string>
     <string name="product_placeholder_name">Product</string>
@@ -92,7 +97,7 @@
     <string name="tutorial_step_name_title">Productnaam</string>
     <string name="tutorial_step_name_desc">Geef het een naam om het makkelijk te herkennen (optioneel).</string>
     <string name="tutorial_step_price_title">Prijs</string>
-    <string name="tutorial_step_price_desc">Voer de totaalprijs in zoals vermeld op het etiket.</string>
+    <string name="tutorial_step_price_desc">Voer de prijs van één verpakking in, zoals vermeld op het etiket.</string>
     <string name="tutorial_step_qty_title">Hoeveelheid</string>
     <string name="tutorial_step_qty_desc">Geef het gewicht of volume aan (bijv: 500 voor 500g).</string>
     <string name="tutorial_step_unit_title">Eenheid</string>
@@ -132,6 +137,8 @@
     <string name="template_edit_title">Sjabloon bewerken</string>
     <string name="tutorial_step_extra_title">Eenheden per verpakking</string>
     <string name="tutorial_step_extra_desc">Als het een pack is (bijv. 6 blikjes), geef dan het aantal eenheden aan. Standaard is 1.</string>
+    <string name="tutorial_step_compare_qty_title">Te kopen artikelen</string>
+    <string name="tutorial_step_compare_qty_desc">Geef aan hoeveel artikelen je koopt. Bundelacties (3 halen 2 betalen, 2e artikel, X voor een vaste prijs) gelden alleen voor volledige bundels.</string>
     <string name="tutorial_step_toggle_title">Speciale aanbiedingen</string>
     <string name="tutorial_step_toggle_desc">Tik hier om aanbiedingsopties te zien zoals kortingen, 3x2 en meer.</string>
     <string name="tutorial_step_templates_title">Opgeslagen sjablonen</string>

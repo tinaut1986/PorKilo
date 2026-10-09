@@ -69,9 +69,20 @@ data class Product(
         }
     }
 
-    val totalComparePrice: Double get() = calculateTotalPrice(compareQuantity)
+    val effectiveCompareQuantity: Int get() = compareQuantity.coerceAtLeast(1)
 
-    val pricePerUnitInCompare: Double get() = if (compareQuantity > 0) totalComparePrice / compareQuantity else 0.0
+    val totalComparePrice: Double get() = calculateTotalPrice(effectiveCompareQuantity)
+
+    val pricePerUnitInCompare: Double get() = totalComparePrice / effectiveCompareQuantity
+
+    // Quantity actually received per package, including any free extra quantity
+    val effectiveQuantityPerPackage: Double get() = if (offer.type == OfferType.EXTRA_QUANTITY) {
+        totalQuantity * (1 + offer.value1 / 100.0)
+    } else {
+        totalQuantity
+    }
+
+    val totalCompareQuantity: Double get() = effectiveQuantityPerPackage * effectiveCompareQuantity
 
     val pricePerBaseUnit: Double get() {
         val u = unit.lowercase()
@@ -81,15 +92,7 @@ data class Product(
             else -> 1.0
         }
         
-        val effectivePrice = pricePerUnitInCompare
-
-        val effectiveQuantity = if (offer.type == OfferType.EXTRA_QUANTITY) {
-            totalQuantity * (1 + offer.value1 / 100.0)
-        } else {
-            totalQuantity
-        }
-
-        return (effectivePrice / effectiveQuantity) * factor
+        return (pricePerUnitInCompare / effectiveQuantityPerPackage) * factor
     }
 
     val pricePerBaseUnitWithoutOffer: Double get() {
