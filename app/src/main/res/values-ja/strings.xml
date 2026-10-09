@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PriceSmart</string>
+    <string name="app_name">PorKilo</string>
     <string name="screen_compare">比較</string>
     <string name="screen_add">追加</string>
     <string name="screen_settings">設定</string>
@@ -25,6 +25,8 @@
     <string name="compare_edit_product">製品を編集</string>
     <string name="compare_delete_product">製品を削除</string>
     <string name="compare_price_per">%s あたりの価格</string>
+    <string name="compare_total_price">合計 (×%d)</string>
+    <string name="compare_price_per_unit">1個あたりの平均価格</string>
     <string name="compare_more_expensive">ベストチョイスより %d%% 高い</string>
     
     <string name="add_product_title">製品を追加</string>
@@ -32,14 +34,17 @@
     <string name="product_data_desc">データを入力して実際の価格を比較します</string>
     <string name="product_name">製品名</string>
     <string name="product_name_placeholder">例：トマトソース</string>
-    <string name="product_price">合計価格 (€)</string>
+    <string name="product_price">1パックの価格 (€)</string>
     <string name="product_units_per_package">パックあたりの個数</string>
     <string name="product_units_placeholder">例：3（缶）</string>
+    <string name="product_compare_quantity">購入数</string>
     <string name="product_quantity_per_unit">1個あたりの量</string>
     <string name="product_quantity_placeholder">例：250</string>
     <string name="product_unit_label">単位</string>
     <string name="product_calculation_title">自動計算</string>
-    <string name="product_total_label">合計</string>
+    <string name="product_total_label">合計量</string>
+    <string name="product_total_price_for_qty">合計価格 (×%d)</string>
+    <string name="product_price_per_unit_for_qty">1個あたりの平均価格</string>
     <string name="product_save_changes">変更を保存</string>
     <string name="product_add_button">製品を追加</string>
     <string name="product_placeholder_name">製品</string>
@@ -93,7 +98,7 @@
     <string name="tutorial_step_name_title">製品名</string>
     <string name="tutorial_step_name_desc">識別しやすい名前を付けてください（任意）。</string>
     <string name="tutorial_step_price_title">価格</string>
-    <string name="tutorial_step_price_desc">ラベルに記載された合計価格を入力してください。</string>
+    <string name="tutorial_step_price_desc">ラベルに表示されている1パックの価格を入力してください。</string>
     <string name="tutorial_step_qty_title">数量</string>
     <string name="tutorial_step_qty_desc">重量または容量を入力してください（例：500g なら 500）。</string>
     <string name="tutorial_step_unit_title">単位</string>
@@ -119,6 +124,8 @@
     <string name="barcode_label">バーコード</string>
     <string name="barcode_placeholder">スキャンまたはコードを入力</string>
     <string name="product_save_as_template">テンプレートとして保存</string>
+    <string name="template_rating">評価</string>
+    <string name="rating_description">5つ星中%1$s</string>
     <string name="templates_title">保存済みテンプレート</string>
     <string name="templates_empty_title">保存済みテンプレートなし</string>
     <string name="templates_empty_desc">テンプレート（名前・単位・量）を保存して次回すばやく呼び出せます。</string>
@@ -133,6 +140,8 @@
     <string name="template_edit_title">テンプレートを編集</string>
     <string name="tutorial_step_extra_title">パックあたりの個数</string>
     <string name="tutorial_step_extra_desc">パック商品の場合（例：6缶）、個数を入力してください。デフォルトは1です。</string>
+    <string name="tutorial_step_compare_qty_title">購入数</string>
+    <string name="tutorial_step_compare_qty_desc">購入する個数を入力してください。まとめ買いのオファー（3個で2個分、2個目割引、X個で固定価格）は、セットがそろった分にのみ適用されます。</string>
     <string name="tutorial_step_toggle_title">特別オファー</string>
     <string name="tutorial_step_toggle_desc">ここをタップして割引・3x2などのオファーオプションを確認できます。</string>
     <string name="tutorial_step_templates_title">保存済みテンプレート</string>

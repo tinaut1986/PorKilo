@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PriceSmart</string>
+    <string name="app_name">PorKilo</string>
     <string name="screen_compare">Alderatu</string>
     <string name="screen_add">Gehitu</string>
     <string name="screen_settings">Ezarpenak</string>
@@ -25,6 +25,8 @@
     <string name="compare_edit_product">Editatu produktua</string>
     <string name="compare_delete_product">Ezabatu produktua</string>
     <string name="compare_price_per">Prezioa %s bakoitzeko</string>
+    <string name="compare_total_price">Guztira (×%d)</string>
+    <string name="compare_price_per_unit">Batez besteko prezioa/artikulua</string>
     <string name="compare_more_expensive">Aukerarik onena baino %% %d garestiagoa</string>
     
     <string name="add_product_title">Gehitu produktua</string>
@@ -32,14 +34,17 @@
     <string name="product_data_desc">Bete datuak benetako prezioa alderatzeko</string>
     <string name="product_name">Produktuaren izena</string>
     <string name="product_name_placeholder">adib: Tomate frijitua</string>
-    <string name="product_price">Prezio Osoa (€)</string>
+    <string name="product_price">Paketeko prezioa (€)</string>
     <string name="product_units_per_package">Unitateak pakete bakoitzeko</string>
     <string name="product_units_placeholder">adib: 3 (lata)</string>
+    <string name="product_compare_quantity">Erosteko artikuluak</string>
     <string name="product_quantity_per_unit">Unitate bakoitzeko kant.</string>
     <string name="product_quantity_placeholder">adib: 250</string>
     <string name="product_unit_label">Unitatea</string>
     <string name="product_calculation_title">Kalkulu Automatikoa</string>
-    <string name="product_total_label">Guztira</string>
+    <string name="product_total_label">Kantitate osoa</string>
+    <string name="product_total_price_for_qty">Prezio osoa (×%d)</string>
+    <string name="product_price_per_unit_for_qty">Batez besteko prezioa/artikulua</string>
     <string name="product_save_changes">GORDE ALDAKETAK</string>
     <string name="product_add_button">GEHITU PRODUKTUA</string>
     <string name="product_placeholder_name">Produktua</string>
@@ -92,7 +97,7 @@
     <string name="tutorial_step_name_title">Produktuaren izena</string>
     <string name="tutorial_step_name_desc">Eman izen bat erraz identifikatzeko (aukerakoa).</string>
     <string name="tutorial_step_price_title">Prezioa</string>
-    <string name="tutorial_step_price_desc">Sartu etiketan agertzen den prezio osoa.</string>
+    <string name="tutorial_step_price_desc">Sartu pakete baten prezioa, etiketan agertzen den bezala.</string>
     <string name="tutorial_step_qty_title">Kantitatea</string>
     <string name="tutorial_step_qty_desc">Adierazi produktuaren pisua edo bolumena (adib: 500, 500g-rako).</string>
     <string name="tutorial_step_unit_title">Unitatea</string>
@@ -118,6 +123,8 @@
     <string name="barcode_label">Barra-kodea</string>
     <string name="barcode_placeholder">Kodea eskaneatu edo idatzi</string>
     <string name="product_save_as_template">Txantiloi gisa gorde</string>
+    <string name="template_rating">Balorazioa</string>
+    <string name="rating_description">5etik %1$s izar</string>
     <string name="templates_title">Gordetako txantiloiak</string>
     <string name="templates_empty_title">Ez dago gordetako txantiloirik</string>
     <string name="templates_empty_desc">Gorde txantiloiak (izena, unitateak, kantitatea) hurrengo aldian azkar kargatzeko.</string>
@@ -132,6 +139,8 @@
     <string name="template_edit_title">Txantiloia editatu</string>
     <string name="tutorial_step_extra_title">Pakete bakoitzeko unitateak</string>
     <string name="tutorial_step_extra_desc">Pack bat bada (adib: 6 lata), zenbat unitate dituen adierazi. Lehenetsita 1 da.</string>
+    <string name="tutorial_step_compare_qty_title">Erosteko artikuluak</string>
+    <string name="tutorial_step_compare_qty_desc">Adierazi zenbat artikulu erosiko dituzun. Sortakako eskaintzak (3x2, 2. unitatea, X prezio finkoan) sorta osoei soilik aplikatzen zaizkie.</string>
     <string name="tutorial_step_toggle_title">Eskaintza bereziak</string>
     <string name="tutorial_step_toggle_desc">Sakatu hemen deskontuak, 3x2 eta gehiagoko eskaintza aukerak ikusteko.</string>
     <string name="tutorial_step_templates_title">Gordetako txantiloiak</string>

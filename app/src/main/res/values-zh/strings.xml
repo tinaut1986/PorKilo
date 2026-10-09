@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PriceSmart</string>
+    <string name="app_name">PorKilo</string>
     <string name="screen_compare">比较</string>
     <string name="screen_add">添加</string>
     <string name="screen_settings">设置</string>
@@ -25,6 +25,8 @@
     <string name="compare_edit_product">编辑产品</string>
     <string name="compare_delete_product">删除产品</string>
     <string name="compare_price_per">每 %s 的价格</string>
+    <string name="compare_total_price">合计 (×%d)</string>
+    <string name="compare_price_per_unit">平均单件价格</string>
     <string name="compare_more_expensive">比最佳选择贵 %d%%</string>
     
     <string name="add_product_title">添加产品</string>
@@ -32,14 +34,17 @@
     <string name="product_data_desc">填写数据以比较实际价格</string>
     <string name="product_name">产品名称</string>
     <string name="product_name_placeholder">例如：番茄酱</string>
-    <string name="product_price">总价 (€)</string>
+    <string name="product_price">每包价格 (€)</string>
     <string name="product_units_per_package">每包单位数</string>
     <string name="product_units_placeholder">例如：3（罐）</string>
+    <string name="product_compare_quantity">购买数量</string>
     <string name="product_quantity_per_unit">每单位数量</string>
     <string name="product_quantity_placeholder">例如：250</string>
     <string name="product_unit_label">单位</string>
     <string name="product_calculation_title">自动计算</string>
-    <string name="product_total_label">总计</string>
+    <string name="product_total_label">总量</string>
+    <string name="product_total_price_for_qty">总价 (×%d)</string>
+    <string name="product_price_per_unit_for_qty">平均单件价格</string>
     <string name="product_save_changes">保存更改</string>
     <string name="product_add_button">添加产品</string>
     <string name="product_placeholder_name">产品</string>
@@ -93,7 +98,7 @@
     <string name="tutorial_step_name_title">产品名称</string>
     <string name="tutorial_step_name_desc">给它起个名字方便识别（可选）。</string>
     <string name="tutorial_step_price_title">价格</string>
-    <string name="tutorial_step_price_desc">输入标签上标注的总价。</string>
+    <string name="tutorial_step_price_desc">输入标签上标注的单包价格。</string>
     <string name="tutorial_step_qty_title">数量</string>
     <string name="tutorial_step_qty_desc">输入重量或容量（例如：500g 则输入 500）。</string>
     <string name="tutorial_step_unit_title">单位</string>
@@ -119,6 +124,8 @@
     <string name="barcode_label">条形码</string>
     <string name="barcode_placeholder">扫描或输入条形码</string>
     <string name="product_save_as_template">保存为模板</string>
+    <string name="template_rating">评分</string>
+    <string name="rating_description">%1$s / 5 星</string>
     <string name="templates_title">已保存的模板</string>
     <string name="templates_empty_title">没有已保存的模板</string>
     <string name="templates_empty_desc">保存模板（名称、单位、数量），下次即可快速加载。</string>
@@ -133,6 +140,8 @@
     <string name="template_edit_title">编辑模板</string>
     <string name="tutorial_step_extra_title">每包数量</string>
     <string name="tutorial_step_extra_desc">如果是套装（例如：6罐），请输入包含的数量。默认为1。</string>
+    <string name="tutorial_step_compare_qty_title">购买数量</string>
+    <string name="tutorial_step_compare_qty_desc">输入要购买的件数。批量优惠（买三付二、第二件折扣、X件固定价）只适用于凑满的整组。</string>
     <string name="tutorial_step_toggle_title">特别优惠</string>
     <string name="tutorial_step_toggle_desc">点击此处查看折扣、3x2等优惠选项。</string>
     <string name="tutorial_step_templates_title">已保存的模板</string>

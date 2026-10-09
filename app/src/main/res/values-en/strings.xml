@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PriceSmart</string>
+    <string name="app_name">PorKilo</string>
     <string name="screen_compare">Compare</string>
     <string name="screen_add">Add</string>
     <string name="screen_settings">Settings</string>
@@ -25,6 +25,8 @@
     <string name="compare_edit_product">Edit product</string>
     <string name="compare_delete_product">Delete product</string>
     <string name="compare_price_per">Price per %s</string>
+    <string name="compare_total_price">Total (×%d)</string>
+    <string name="compare_price_per_unit">Avg. price/item</string>
     <string name="compare_more_expensive">%d%% more expensive than the best option</string>
     
     <string name="add_product_title">Add product</string>
@@ -32,14 +34,17 @@
     <string name="product_data_desc">Complete the data to compare the real price</string>
     <string name="product_name">Product name</string>
     <string name="product_name_placeholder">e.g.: Fried tomato</string>
-    <string name="product_price">Total Price (€)</string>
+    <string name="product_price">Price per package (€)</string>
     <string name="product_units_per_package">Units per package</string>
     <string name="product_units_placeholder">e.g.: 3 (cans)</string>
+    <string name="product_compare_quantity">Items to buy</string>
     <string name="product_quantity_per_unit">Qty. per unit</string>
     <string name="product_quantity_placeholder">e.g.: 250</string>
     <string name="product_unit_label">Unit</string>
     <string name="product_calculation_title">Automatic Calculation</string>
-    <string name="product_total_label">Total</string>
+    <string name="product_total_label">Total quantity</string>
+    <string name="product_total_price_for_qty">Total price (×%d)</string>
+    <string name="product_price_per_unit_for_qty">Avg. price/item</string>
     <string name="product_save_changes">SAVE CHANGES</string>
     <string name="product_add_button">ADD PRODUCT</string>
     <string name="product_placeholder_name">Product</string>
@@ -61,9 +66,9 @@
     <string name="offer_extra_qty">Extra quantity free (%)</string>
     
     <string name="offer_desc_pct">-%s%% discount</string>
-    <string name="offer_desc_buy_x_pay_y">Buy %s pay %s</string>
+    <string name="offer_desc_buy_x_pay_y">Buy %1$s pay %2$s</string>
     <string name="offer_desc_nth_unit">%sth unit at -%s%%</string>
-    <string name="offer_desc_fixed_price">%s units for %s€</string>
+    <string name="offer_desc_fixed_price">%1$s units for %2$s€</string>
     <string name="offer_desc_extra_qty">+%s%% free</string>
     
     <string name="offer_savings">Save %d%%</string>
@@ -92,7 +97,7 @@
     <string name="tutorial_step_name_title">Product name</string>
     <string name="tutorial_step_name_desc">Give it a name to identify it easily (optional).</string>
     <string name="tutorial_step_price_title">Price</string>
-    <string name="tutorial_step_price_desc">Enter the total price as marked on the label.</string>
+    <string name="tutorial_step_price_desc">Enter the price of one package, as shown on the label.</string>
     <string name="tutorial_step_qty_title">Quantity</string>
     <string name="tutorial_step_qty_desc">Indicate the weight or volume (e.g., 500 for 500g).</string>
     <string name="tutorial_step_unit_title">Unit</string>
@@ -118,6 +123,8 @@
     <string name="barcode_label">Barcode</string>
     <string name="barcode_placeholder">Scan or type barcode</string>
     <string name="product_save_as_template">Save as template</string>
+    <string name="template_rating">Rating</string>
+    <string name="rating_description">%1$s out of 5 stars</string>
     <string name="templates_title">Saved Templates</string>
     <string name="templates_empty_title">No saved templates</string>
     <string name="templates_empty_desc">Save templates (name, units, quantity) to load them quickly next time.</string>
@@ -132,6 +139,8 @@
     <string name="template_edit_title">Edit template</string>
     <string name="tutorial_step_extra_title">Units per package</string>
     <string name="tutorial_step_extra_desc">If the product is a pack (e.g. 6 cans), indicate how many units it contains. Default is 1.</string>
+    <string name="tutorial_step_compare_qty_title">Items to buy</string>
+    <string name="tutorial_step_compare_qty_desc">Enter how many items you are going to buy. Batch offers (3-for-2, second unit, X for a fixed price) only apply to complete batches.</string>
     <string name="tutorial_step_toggle_title">Special offers</string>
     <string name="tutorial_step_toggle_desc">Tap here to see offer options like discounts, 3-for-2 and more.</string>
     <string name="tutorial_step_templates_title">Saved templates</string>

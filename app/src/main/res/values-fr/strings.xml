@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PriceSmart</string>
+    <string name="app_name">PorKilo</string>
     <string name="screen_compare">Comparer</string>
     <string name="screen_add">Ajouter</string>
     <string name="screen_settings">Paramètres</string>
@@ -25,6 +25,8 @@
     <string name="compare_edit_product">Modifier le produit</string>
     <string name="compare_delete_product">Supprimer le produit</string>
     <string name="compare_price_per">Prix par %s</string>
+    <string name="compare_total_price">Total (×%d)</string>
+    <string name="compare_price_per_unit">Prix moyen/article</string>
     <string name="compare_more_expensive">%d%% plus cher que la meilleure option</string>
     
     <string name="add_product_title">Ajouter un produit</string>
@@ -32,14 +34,17 @@
     <string name="product_data_desc">Complétez les données pour comparer le prix réel</string>
     <string name="product_name">Nom du produit</string>
     <string name="product_name_placeholder">ex: Tomates pelées</string>
-    <string name="product_price">Prix total (€)</string>
+    <string name="product_price">Prix par paquet (€)</string>
     <string name="product_units_per_package">Unités par paquet</string>
     <string name="product_units_placeholder">ex: 3 (boîtes)</string>
+    <string name="product_compare_quantity">Articles à acheter</string>
     <string name="product_quantity_per_unit">Quantité par unité</string>
     <string name="product_quantity_placeholder">ex: 250</string>
     <string name="product_unit_label">Unité</string>
     <string name="product_calculation_title">Calcul automatique</string>
-    <string name="product_total_label">Total</string>
+    <string name="product_total_label">Quantité totale</string>
+    <string name="product_total_price_for_qty">Prix total (×%d)</string>
+    <string name="product_price_per_unit_for_qty">Prix moyen/article</string>
     <string name="product_save_changes">ENREGISTRER LES MODIFICATIONS</string>
     <string name="product_add_button">AJOUTER LE PRODUIT</string>
     <string name="product_placeholder_name">Produit</string>
@@ -92,7 +97,7 @@
     <string name="tutorial_step_name_title">Nom du produit</string>
     <string name="tutorial_step_name_desc">Donnez-lui un nom pour l\'identifier facilement (optionnel).</string>
     <string name="tutorial_step_price_title">Prix</string>
-    <string name="tutorial_step_price_desc">Entrez le prix total indiqué sur l\'étiquette.</string>
+    <string name="tutorial_step_price_desc">Entrez le prix d\'un paquet, tel qu\'indiqué sur l\'étiquette.</string>
     <string name="tutorial_step_qty_title">Quantité</string>
     <string name="tutorial_step_qty_desc">Indiquez le poids ou volume (ex : 500 pour 500g).</string>
     <string name="tutorial_step_unit_title">Unité</string>
@@ -118,6 +123,8 @@
     <string name="barcode_label">Code-barres</string>
     <string name="barcode_placeholder">Scanner ou saisir le code</string>
     <string name="product_save_as_template">Enregistrer comme modèle</string>
+    <string name="template_rating">Note</string>
+    <string name="rating_description">%1$s sur 5 étoiles</string>
     <string name="templates_title">Modèles enregistrés</string>
     <string name="templates_empty_title">Aucun modèle enregistré</string>
     <string name="templates_empty_desc">Enregistrez des modèles (nom, unités, quantité) pour les charger rapidement une prochaine fois.</string>
@@ -132,6 +139,8 @@
     <string name="template_edit_title">Modifier le modèle</string>
     <string name="tutorial_step_extra_title">Unités par paquet</string>
     <string name="tutorial_step_extra_desc">Si c\'est un pack (ex : 6 canettes), indiquez combien d\'unités il contient. Par défaut : 1.</string>
+    <string name="tutorial_step_compare_qty_title">Articles à acheter</string>
+    <string name="tutorial_step_compare_qty_desc">Indiquez combien d\'articles vous allez acheter. Les offres par lot (3 pour 2, 2e unité, X pour un prix fixe) ne s\'appliquent qu\'aux lots complets.</string>
     <string name="tutorial_step_toggle_title">Offres spéciales</string>
     <string name="tutorial_step_toggle_desc">Appuyez ici pour voir les options d\'offres comme les remises, 3x2 et plus.</string>
     <string name="tutorial_step_templates_title">Modèles enregistrés</string>

@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PriceSmart"
+rootProject.name = "PorKilo"
 include(":app")
