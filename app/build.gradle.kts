@@ -9,6 +9,57 @@ plugins {
     id("kotlin-parcelize")
 }
 
+// Version derived from git (see docs/RELEASING.md):
+//   tagged commit vX.Y.Z           -> X.Y.Z
+//   on release/vX.Y.Z              -> X.Y.Z-dev.<commits since main>+<hash>
+//   on a branch cut from release/* -> X.Y.Z-dev.<since main>.<since release>+<hash>
+//   anything else                  -> git describe
+// versionCode is the number of commits, so a later build always installs over an earlier one.
+fun git(vararg args: String): String = try {
+    providers.exec {
+        commandLine("git", *args)
+        isIgnoreExitValue = true
+    }.standardOutput.asText.get().trim()
+} catch (e: Exception) {
+    ""
+}
+
+fun versionParts(name: String): List<Int> =
+    Regex("""\d+""").findAll(name).map { it.value.toInt() }.toList()
+
+val versionComparator = Comparator<String> { a, b ->
+    val pa = versionParts(a)
+    val pb = versionParts(b)
+    (0 until maxOf(pa.size, pb.size))
+        .map { pa.getOrElse(it) { 0 }.compareTo(pb.getOrElse(it) { 0 }) }
+        .firstOrNull { it != 0 } ?: 0
+}
+
+val gitVersionName: String = run {
+    val exactTag = git("describe", "--tags", "--exact-match")
+    if (exactTag.isNotEmpty()) return@run exactTag.removePrefix("v")
+
+    val branch = git("rev-parse", "--abbrev-ref", "HEAD")
+    val releaseBranch = if (branch.startsWith("release/")) branch else git(
+        "for-each-ref", "--format=%(refname:short)", "--merged", "HEAD",
+        "refs/heads/release/*", "refs/remotes/origin/release/*"
+    ).lines().filter { it.isNotBlank() }.map { it.removePrefix("origin/") }.maxWithOrNull(versionComparator)
+
+    if (releaseBranch == null) {
+        return@run git("describe", "--tags", "--always").removePrefix("v").ifEmpty { "0.0.0-dev" }
+    }
+
+    val base = if (git("rev-parse", "--verify", "-q", "refs/remotes/origin/main").isNotEmpty()) "refs/remotes/origin/main" else "main"
+    val target = if (git("rev-parse", "--verify", "-q", "refs/heads/$releaseBranch").isNotEmpty()) "refs/heads/$releaseBranch" else "refs/remotes/origin/$releaseBranch"
+    val sinceMain = git("rev-list", "--count", "$base..$target").ifEmpty { "1" }
+    val sinceRelease = git("rev-list", "--count", "$target..HEAD").ifEmpty { "0" }
+    val hash = git("rev-parse", "--short", "HEAD").ifEmpty { "dev" }
+    val counts = if (sinceRelease == "0") sinceMain else "$sinceMain.$sinceRelease"
+    "${releaseBranch.removePrefix("release/").removePrefix("v")}-dev.$counts+$hash"
+}
+
+val gitVersionCode: Int = git("rev-list", "--count", "HEAD").toIntOrNull() ?: 1
+
 android {
     namespace = "com.tinaut1986.porkilo"
     compileSdk {
@@ -19,8 +70,8 @@ android {
         applicationId = "com.tinaut1986.porkilo"
         minSdk = 21
         targetSdk = 36
-        versionCode = 5
-        versionName = "1.2.0"
+        versionCode = gitVersionCode
+        versionName = gitVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -45,7 +96,6 @@ android {
         // Debug builds install next to the release app, so testing never requires uninstalling it
         debug {
             applicationIdSuffix = ".debug"
-            versionNameSuffix = "-dev"
         }
         release {
             val localPropertiesFile = rootProject.file("local.properties")
