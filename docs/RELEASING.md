@@ -80,3 +80,10 @@ git branch --unset-upstream
 git push -u origin release/v1.3.1
 git push origin --delete release/v1.3.0
 ```
+
+## Database changes
+
+Room schemas are exported to `app/schemas/` and committed. Any change to an entity
+(`ProductTemplate`) must bump the database version in `AppDatabase` and add a migration,
+preferably an `AutoMigration` (with an `AutoMigrationSpec` for deleted or renamed
+columns); otherwise the app fails to open on devices that already have data.

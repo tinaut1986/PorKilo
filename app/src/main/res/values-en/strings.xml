@@ -47,6 +47,7 @@
     <string name="product_price_per_unit_for_qty">Avg. price/item</string>
     <string name="product_save_changes">SAVE CHANGES</string>
     <string name="product_add_button">ADD PRODUCT</string>
+    <string name="template_save_button">SAVE TEMPLATE</string>
     <string name="product_placeholder_name">Product</string>
     
     <string name="unit_kg">kg</string>

@@ -47,6 +47,7 @@
     <string name="product_price_per_unit_for_qty">Preu mitjà/article</string>
     <string name="product_save_changes">DESAR CANVIS</string>
     <string name="product_add_button">AFEGIR PRODUCTE</string>
+    <string name="template_save_button">DESAR FORMAT</string>
     <string name="product_placeholder_name">Producte</string>
     
     <string name="unit_kg">kg</string>
