@@ -39,6 +39,7 @@
 2. Ábrelo con **Android Studio (Ladybug 2024.2.1 o superior)**.
 3. Compila y ejecuta en un dispositivo con Android 5.0 (API 21) o superior.
 4. Las compilaciones *debug* se instalan como una app aparte (**PorKilo Dev**, `com.tinaut1986.porkilo.debug`, icono rojo), de modo que pueden convivir con la versión estable sin desinstalarla.
+5. Ramas, numeración de versiones y publicación: ver [`docs/RELEASING.md`](docs/RELEASING.md).
 
 ---
 

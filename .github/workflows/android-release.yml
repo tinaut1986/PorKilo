@@ -2,34 +2,65 @@ name: Android CI & Release
 
 on:
   push:
-    branches: [ "main" ]
     tags:
       - 'v*'
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "release/**" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-    - uses: actions/checkout@v4
-    
-    - name: set up JDK 17
-      uses: actions/setup-java@v4
+    - uses: actions/checkout@v5
+      with:
+        # Full history and tags: the version name and code are derived from git
+        fetch-depth: 0
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v5
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    # Stable vs beta is decided by whether main can reach this commit, not by
+    # whether this was a tag push (same rule as tinaut1986/sm-3ds):
+    #   - Tag on an unmerged release/* branch  -> Beta (pre-release)
+    #   - Tag on (or merged into) main         -> Release
+    #   - Manual dispatch on a branch          -> Beta
+    # Re-running this workflow on a beta tag that has since been merged
+    # promotes that same release page to stable. Push main before the tag.
+    - name: Determine tag and channel
+      id: vars
+      run: |
+        case "$GITHUB_REF" in
+          refs/tags/*) TAG="${GITHUB_REF#refs/tags/}" ;;
+          *) TAG=$(git describe --tags --always) ;;
+        esac
+        git fetch --no-tags --quiet origin +refs/heads/main:refs/remotes/origin/main || true
+        if git merge-base --is-ancestor HEAD refs/remotes/origin/main 2>/dev/null; then
+          PRERELEASE=false; CHANNEL=Release
+        else
+          PRERELEASE=true; CHANNEL=Beta
+        fi
+        {
+          echo "tag=$TAG"
+          echo "prerelease=$PRERELEASE"
+          echo "channel=$CHANNEL"
+        } >> "$GITHUB_OUTPUT"
 
     - name: Build with Gradle
-      run: ./gradlew assembleRelease
+      run: |
+        chmod +x gradlew
+        ./gradlew testReleaseUnitTest assembleRelease
 
+    # Pull requests only check that the app builds and the tests pass
     - name: Sign APK
+      if: github.event_name != 'pull_request'
       uses: ilharp/sign-android-release@v1
       id: sign_app
       with:
@@ -40,17 +71,55 @@ jobs:
         keyPassword: ${{ secrets.KEY_PASSWORD }}
         buildToolsVersion: 34.0.0
 
-    - name: Upload APK Artifact
+    - name: Generate changelog and QR code
+      if: github.event_name != 'pull_request'
+      run: |
+        TAG="${{ steps.vars.outputs.tag }}"
+        BASE="https://github.com/${{ github.repository }}/releases/download/${TAG}"
+        PREV=$(git describe --tags --abbrev=0 "${TAG}^" 2>/dev/null || true)
+        RANGE="${PREV:+${PREV}..}HEAD"
+
+        cp "${{ steps.sign_app.outputs.signedFile }}" "porkilo-${TAG}.apk"
+
+        {
+          if [ "${{ steps.vars.outputs.prerelease }}" = "true" ]; then
+            echo "> **Beta build.** It comes from a \`release/*\` branch that has not been"
+            echo "> merged into \`main\` yet, so it is not a stable version."
+            echo
+          fi
+          echo "Scan the QR code with the phone to download the APK."
+          echo
+          echo "![QR code for porkilo-${TAG}.apk](${BASE}/QR-${TAG}.png)"
+          echo
+          echo "## Download"
+          echo
+          echo "- [porkilo-${TAG}.apk](${BASE}/porkilo-${TAG}.apk)"
+          echo
+          echo "## Changelog"
+          echo
+          git log ${RANGE} --no-merges --pretty='- %s (%h)'
+        } > release_notes.md
+
+        sudo apt-get update -qq && sudo apt-get install -y -qq qrencode > /dev/null
+        qrencode -s 10 -o "QR-${TAG}.png" "${BASE}/porkilo-${TAG}.apk"
+
+    - name: Upload APK artifact
+      if: github.event_name != 'pull_request'
       uses: actions/upload-artifact@v4
       with:
-        name: PriceSmart-release-apk
-        path: ${{ steps.sign_app.outputs.signedFile }}
+        name: porkilo-${{ steps.vars.outputs.tag }}
+        path: porkilo-${{ steps.vars.outputs.tag }}.apk
 
-    - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/v')
+    - name: Create or update GitHub Release
+      if: github.event_name != 'pull_request'
       uses: softprops/action-gh-release@v2
       with:
-        files: ${{ steps.sign_app.outputs.signedFile }}
-        generate_release_notes: true
+        tag_name: ${{ steps.vars.outputs.tag }}
+        name: ${{ steps.vars.outputs.channel }} ${{ steps.vars.outputs.tag }}
+        prerelease: ${{ steps.vars.outputs.prerelease == 'true' }}
+        body_path: release_notes.md
+        files: |
+          porkilo-${{ steps.vars.outputs.tag }}.apk
+          QR-${{ steps.vars.outputs.tag }}.png
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
