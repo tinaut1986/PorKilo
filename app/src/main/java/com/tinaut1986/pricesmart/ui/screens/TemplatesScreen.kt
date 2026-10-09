@@ -19,6 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tinaut1986.pricesmart.R
 import com.tinaut1986.pricesmart.model.ProductTemplate
+import com.tinaut1986.pricesmart.ui.components.RatingBar
+import com.tinaut1986.pricesmart.util.formatQuantity
 import com.tinaut1986.pricesmart.vms.TemplateViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.compose.foundation.lazy.items
@@ -133,7 +135,8 @@ fun TemplatesScreen(
                             isDarkMode = isDarkMode,
                             onClick = { onTemplateSelected(template) },
                             onEdit = { onEditTemplate(template) },
-                            onDelete = { templateToDelete = template }
+                            onDelete = { templateToDelete = template },
+                            onRatingChange = { viewModel.updateRating(template, it) }
                         )
                     }
                 }
@@ -175,7 +178,8 @@ fun TemplateItem(
     isDarkMode: Boolean,
     onClick: () -> Unit,
     onEdit: () -> Unit,
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
+    onRatingChange: (Float) -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -197,8 +201,14 @@ fun TemplateItem(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
+                RatingBar(
+                    rating = template.rating,
+                    starSize = 22.dp,
+                    onRatingChange = onRatingChange,
+                    modifier = Modifier.padding(vertical = 2.dp)
+                )
                 Text(
-                    "${template.unitsPerPackage} x ${template.quantityPerUnit} ${template.unit}",
+                    "${template.unitsPerPackage} x ${formatQuantity(template.quantityPerUnit)} ${template.unit}",
                     style = MaterialTheme.typography.bodyMedium,
                     color = Color.Gray
                 )

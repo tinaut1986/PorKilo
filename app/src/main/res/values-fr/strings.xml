@@ -123,6 +123,8 @@
     <string name="barcode_label">Code-barres</string>
     <string name="barcode_placeholder">Scanner ou saisir le code</string>
     <string name="product_save_as_template">Enregistrer comme modèle</string>
+    <string name="template_rating">Note</string>
+    <string name="rating_description">%1$s sur 5 étoiles</string>
     <string name="templates_title">Modèles enregistrés</string>
     <string name="templates_empty_title">Aucun modèle enregistré</string>
     <string name="templates_empty_desc">Enregistrez des modèles (nom, unités, quantité) pour les charger rapidement une prochaine fois.</string>

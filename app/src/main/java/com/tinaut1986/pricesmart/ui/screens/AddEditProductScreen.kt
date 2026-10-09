@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.tinaut1986.pricesmart.model.Product
 import com.tinaut1986.pricesmart.model.Offer
 import com.tinaut1986.pricesmart.model.OfferType
+import com.tinaut1986.pricesmart.ui.components.RatingBar
 import com.tinaut1986.pricesmart.util.ScannerUtils
 import com.tinaut1986.pricesmart.util.formatQuantity
 import com.tinaut1986.pricesmart.vms.TemplateViewModel
@@ -59,6 +60,18 @@ fun AddEditProductScreen(
         }
     }
     var barcode by remember { mutableStateOf(existingProduct?.barcode ?: initialBarcode ?: "") }
+    // Template the product was created from, used to show and update its rating
+    var linkedTemplate by remember { mutableStateOf<ProductTemplate?>(null) }
+    var rating by remember { mutableStateOf(0f) }
+
+    LaunchedEffect(existingProduct?.templateId) {
+        existingProduct?.templateId?.let { id ->
+            templateViewModel.getTemplateById(id)?.let {
+                linkedTemplate = it
+                rating = it.rating
+            }
+        }
+    }
     var saveAsTemplate by remember { mutableStateOf(false) }
 
 
@@ -118,6 +131,8 @@ fun AddEditProductScreen(
             compareQuantity = it.compareQuantity.toString()
             quantityPerUnit = it.quantityPerUnit.toString()
             selectedUnitId = it.unit
+            rating = it.rating
+            if (!isTemplateMode) linkedTemplate = it
         }
     }
 
@@ -132,6 +147,8 @@ fun AddEditProductScreen(
                 quantityPerUnit = template.quantityPerUnit.toString()
                 selectedUnitId = template.unit
                 barcode = template.barcode ?: ""
+                rating = template.rating
+                linkedTemplate = template
             }
         }
     }
@@ -776,6 +793,27 @@ fun AddEditProductScreen(
             }
         }
 
+        if (isTemplateMode || saveAsTemplate || linkedTemplate != null) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.template_rating),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontWeight = FontWeight.Medium
+                )
+                RatingBar(
+                    rating = rating,
+                    starSize = 32.dp,
+                    onRatingChange = { rating = it }
+                )
+            }
+        }
+
         // Save as Template Toggle
         if (!isEditing && !isTemplateMode) {
             Row(
@@ -815,7 +853,8 @@ fun AddEditProductScreen(
                         quantityPerUnit = quantValue,
                         unit = selectedUnitId,
                         barcode = barcode.ifBlank { null },
-                        compareQuantity = compValue
+                        compareQuantity = compValue,
+                        rating = rating
                     )
                     templateViewModel.insertTemplate(template)
                     onTemplateAction()
@@ -834,8 +873,13 @@ fun AddEditProductScreen(
                                 value2 = offerValue2.toDoubleOrNull() ?: 0.0
                             ),
                             barcode = barcode.ifBlank { null },
-                            compareQuantity = compValue
+                            compareQuantity = compValue,
+                            templateId = linkedTemplate?.id
                         )
+
+                        linkedTemplate?.let {
+                            if (it.rating != rating) templateViewModel.updateRating(it, rating)
+                        }
 
                         if (saveAsTemplate) {
                             templateViewModel.insertTemplate(
@@ -845,7 +889,8 @@ fun AddEditProductScreen(
                                     quantityPerUnit = finalProduct.quantityPerUnit,
                                     unit = finalProduct.unit,
                                     barcode = finalProduct.barcode,
-                                    compareQuantity = finalProduct.compareQuantity
+                                    compareQuantity = finalProduct.compareQuantity,
+                                    rating = rating
                                 )
                             )
                         }

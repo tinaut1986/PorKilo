@@ -123,6 +123,8 @@
     <string name="barcode_label">Barcode</string>
     <string name="barcode_placeholder">Barcode scannen of typen</string>
     <string name="product_save_as_template">Opslaan als sjabloon</string>
+    <string name="template_rating">Beoordeling</string>
+    <string name="rating_description">%1$s van 5 sterren</string>
     <string name="templates_title">Opgeslagen sjablonen</string>
     <string name="templates_empty_title">Geen opgeslagen sjablonen</string>
     <string name="templates_empty_desc">Sla sjablonen op (naam, eenheden, hoeveelheid) om ze een volgende keer snel te laden.</string>

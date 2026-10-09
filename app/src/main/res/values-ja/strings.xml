@@ -124,6 +124,8 @@
     <string name="barcode_label">バーコード</string>
     <string name="barcode_placeholder">スキャンまたはコードを入力</string>
     <string name="product_save_as_template">テンプレートとして保存</string>
+    <string name="template_rating">評価</string>
+    <string name="rating_description">5つ星中%1$s</string>
     <string name="templates_title">保存済みテンプレート</string>
     <string name="templates_empty_title">保存済みテンプレートなし</string>
     <string name="templates_empty_desc">テンプレート（名前・単位・量）を保存して次回すばやく呼び出せます。</string>

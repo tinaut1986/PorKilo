@@ -123,6 +123,8 @@
     <string name="barcode_label">Código de barras</string>
     <string name="barcode_placeholder">Escanear ou escribir código</string>
     <string name="product_save_as_template">Gardar como formato</string>
+    <string name="template_rating">Valoración</string>
+    <string name="rating_description">%1$s de 5 estrelas</string>
     <string name="templates_title">Formatos gardados</string>
     <string name="templates_empty_title">Non tes formatos gardados</string>
     <string name="templates_empty_desc">Garda formatos (nome, unidades, cantidade) para cargalos rapidamente outro día.</string>

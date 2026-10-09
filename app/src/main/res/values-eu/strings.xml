@@ -123,6 +123,8 @@
     <string name="barcode_label">Barra-kodea</string>
     <string name="barcode_placeholder">Kodea eskaneatu edo idatzi</string>
     <string name="product_save_as_template">Txantiloi gisa gorde</string>
+    <string name="template_rating">Balorazioa</string>
+    <string name="rating_description">5etik %1$s izar</string>
     <string name="templates_title">Gordetako txantiloiak</string>
     <string name="templates_empty_title">Ez dago gordetako txantiloirik</string>
     <string name="templates_empty_desc">Gorde txantiloiak (izena, unitateak, kantitatea) hurrengo aldian azkar kargatzeko.</string>

@@ -31,8 +31,9 @@ class TemplateViewModel(application: Application) : AndroidViewModel(application
             if (template.barcode != null) {
                 val existing = repository.getTemplateByBarcode(template.barcode)
                 if (existing != null) {
-                    // Update existing template with new data
-                    repository.insert(template.copy(id = existing.id))
+                    // Update existing template with new data, keeping its rating unless a new one was given
+                    val rating = if (template.id == 0L && template.rating == 0f) existing.rating else template.rating
+                    repository.insert(template.copy(id = existing.id, rating = rating))
                     return@launch
                 }
             }
@@ -56,6 +57,10 @@ class TemplateViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             repository.update(template)
         }
+    }
+
+    fun updateRating(template: ProductTemplate, rating: Float) {
+        updateTemplate(template.copy(rating = rating))
     }
 
     fun deleteTemplate(template: ProductTemplate) {

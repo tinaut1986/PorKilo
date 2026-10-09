@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import com.tinaut1986.pricesmart.model.ProductTemplate
+import com.tinaut1986.pricesmart.ui.components.RatingBar
 import com.tinaut1986.pricesmart.util.formatQuantity
 import com.tinaut1986.pricesmart.R
 import androidx.compose.ui.text.font.FontWeight
@@ -30,6 +32,7 @@ import kotlin.math.roundToInt
 fun CompareScreen(
     isDarkMode: Boolean,
     products: MutableList<Product>,
+    templates: List<ProductTemplate> = emptyList(),
     onAddClick: () -> Unit,
     onEditClick: (Product) -> Unit
 ) {
@@ -198,6 +201,7 @@ fun CompareScreen(
                         product = product,
                         position = sortedProducts.indexOf(product),
                         bestPricePerBaseUnit = sortedProducts.firstOrNull()?.pricePerBaseUnit ?: 0.0,
+                        rating = findTemplateFor(product, templates)?.rating ?: 0f,
                         onDelete = { prod ->
                             productToDelete = prod
                         },
@@ -321,6 +325,7 @@ fun ProductCard(
     product: Product,
     position: Int,
     bestPricePerBaseUnit: Double,
+    rating: Float = 0f,
     onDelete: (Product) -> Unit,
     onEdit: () -> Unit,
     tutorialStep: Int = -1
@@ -395,6 +400,10 @@ fun ProductCard(
                         fontWeight = FontWeight.Bold,
                         color = if (isDarkMode) Color.White else Color(0xFF333333)
                     )
+
+                    if (rating > 0f) {
+                        RatingBar(rating = rating, starSize = 16.dp)
+                    }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
@@ -605,3 +614,9 @@ fun ProductCard(
         }
     }
 }
+
+// Products keep the id of the template they came from; older ones are matched by barcode or name
+private fun findTemplateFor(product: Product, templates: List<ProductTemplate>): ProductTemplate? =
+    product.templateId?.let { id -> templates.find { it.id == id } }
+        ?: product.barcode?.let { code -> templates.find { it.barcode == code } }
+        ?: templates.find { it.name.equals(product.name, ignoreCase = true) }

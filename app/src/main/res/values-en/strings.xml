@@ -123,6 +123,8 @@
     <string name="barcode_label">Barcode</string>
     <string name="barcode_placeholder">Scan or type barcode</string>
     <string name="product_save_as_template">Save as template</string>
+    <string name="template_rating">Rating</string>
+    <string name="rating_description">%1$s out of 5 stars</string>
     <string name="templates_title">Saved Templates</string>
     <string name="templates_empty_title">No saved templates</string>
     <string name="templates_empty_desc">Save templates (name, units, quantity) to load them quickly next time.</string>

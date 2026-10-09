@@ -124,6 +124,8 @@
     <string name="barcode_label">条形码</string>
     <string name="barcode_placeholder">扫描或输入条形码</string>
     <string name="product_save_as_template">保存为模板</string>
+    <string name="template_rating">评分</string>
+    <string name="rating_description">%1$s / 5 星</string>
     <string name="templates_title">已保存的模板</string>
     <string name="templates_empty_title">没有已保存的模板</string>
     <string name="templates_empty_desc">保存模板（名称、单位、数量），下次即可快速加载。</string>

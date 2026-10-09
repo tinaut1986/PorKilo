@@ -260,9 +260,11 @@ fun PriceComparatorApp() {
                         modifier = Modifier.fillMaxSize()
                     ) {
                         composable(ProductScreen.Compare.route) { 
+                            val templates by templateViewModel.allTemplates.collectAsState()
                             CompareScreen(
                                 isDarkMode = isDarkMode,
                                 products = products,
+                                templates = templates,
                                 onAddClick = { 
                                     navController.navigate(ProductScreen.Add.route) {
                                         popUpTo(navController.graph.findStartDestination().id) {

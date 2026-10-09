@@ -123,6 +123,8 @@
     <string name="barcode_label">Codi de barres</string>
     <string name="barcode_placeholder">Escanejar o escriure codi</string>
     <string name="product_save_as_template">Desar com a format</string>
+    <string name="template_rating">Valoració</string>
+    <string name="rating_description">%1$s de 5 estrelles</string>
     <string name="templates_title">Formats desats</string>
     <string name="templates_empty_title">No tens formats desats</string>
     <string name="templates_empty_desc">Desa formats (nom, unitats, quantitat) per carregar-los ràpidament un altre dia.</string>
