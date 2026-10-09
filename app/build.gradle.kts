@@ -42,6 +42,11 @@ android {
     }
 
     buildTypes {
+        // Debug builds install next to the release app, so testing never requires uninstalling it
+        debug {
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-dev"
+        }
         release {
             val localPropertiesFile = rootProject.file("local.properties")
             if (localPropertiesFile.exists()) {
